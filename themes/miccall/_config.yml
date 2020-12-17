@@ -4,7 +4,7 @@
 
 # Head info
 head:
-    favicon: "/img/logo_miccall.png"
+    favicon: "/img/me.png"
     keywords: miccall
     backgroundpic : "img/bg.jpg"
 
@@ -23,16 +23,15 @@ Nav:
     #Social
     # for more icons, please see http://fontawesome.io/icons/#brand
     icon:
-        github: https://github.com/miccall
-        500px: http://500px.com
+        github: https://github.com/xzjs
         
     pages:
         简历: 
             link: "/about/"
 
 MainFirst:
-    name: Miccall Metro
-    description: Technical  Artist  of  Games   
+    name: 血之君殇
+    description: 我还没老，我还能跑……
     pic_url: /images/me.jpg
     goto_ulr: ""
 
