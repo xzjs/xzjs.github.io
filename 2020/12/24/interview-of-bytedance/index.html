@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <p>应朋友之邀，今天下午去字节送了颗人头，最后不负众望，被面试官撵出来了……</p>
+<h1 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h1><h2 id="谈一下之前重构百度账号中心的方案"><a href="#谈一下之前重构百度账号中心的方案" class="headerlink" title="谈一下之前重构百度账号中心的方案"></a>谈一下之前重构百度账号中心的方案</h2><p>吹了一波之前在百度改造restful接口的方案，但面试官并不感冒，提了一个显示文章的列表的场景，但感觉没有理解面试官的意思，没有提出面试官满意的restful解决方案，刚开始就得了个负分，这块得抽空找大佬再探讨探讨，等后面有什么心得再补充吧</p>
+<h2 id="mysql索引快的原理"><a href="#mysql索引快的原理" class="headerlink" title="mysql索引快的原理"></a>mysql索引快的原理</h2><p>回答这个问题需要先看一下数据库的存储结构<br><img src="https://tva2.sinaimg.cn/large/9f8a45fbly1gm03j3bfj1j20cv0amq5a.jpg" alt="页结构"></p>
+<h3 id="页和页之间的关系"><a href="#页和页之间的关系" class="headerlink" title="页和页之间的关系"></a>页和页之间的关系</h3><p><img src="https://tva3.sinaimg.cn/large/9f8a45fbly1gm03jnw7cij20op0ann1t.jpg" alt="页和页之间的关系"></p>
+<blockquote>
+<p>有个知识，之前不知道的<br>聚集索引：以主键创建的索引，叶子节点存储的是表中的数据<br>非聚集索引：非主键创建的索引，叶子节点中存储的是主键和索引列，使用非聚集索引查询数据，会查询到叶子上的主键，再根据主键查到数据（这个过程叫做回表）</p>
+</blockquote>
+<p>没有用索引的时候，需要遍历双向链表来定位对应的页，有了索引，可以用<strong>二分查找</strong>，这么弱智的答案，我当时居然没想到，这也是后面面试官问为什么主键建议用自增字段的答案</p>
+<h2 id="页码跳页性能（即sql-offset会不会影响性能）"><a href="#页码跳页性能（即sql-offset会不会影响性能）" class="headerlink" title="页码跳页性能（即sql offset会不会影响性能）"></a>页码跳页性能（即sql offset会不会影响性能）</h2><p>mysql查询时，offset过大影响性能的原因是多次通过主键索引访问数据块的I/O操作<br>InnoDB会，MyISAM不会，如图所示<br><img src="https://tva2.sinaimg.cn/large/9f8a45fbly1gm03k5e9idj20q60md761.jpg" alt="InnoDB和MyISAM对比图"><br>InnoDB的二级索引对应的是主键，mysql查询的时候会根据主键将数据块查出来，然后执行offset丢弃，如果只查主键就不会有性能问题。MyISAM的主键索引和二级索引都指向数据块，因此没有这方面的问题</p>
+<h3 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h3><p>先查询偏移后的主键，再查询数据块</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token number">a</span><span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword">from</span> member <span class="token keyword">as</span> <span class="token number">a</span> <span class="token keyword">inner</span> <span class="token keyword">join</span> <span class="token punctuation">(</span><span class="token keyword">select</span> id <span class="token keyword">from</span> member <span class="token keyword">where</span> gender<span class="token operator">=</span><span class="token number">1</span> <span class="token keyword">limit</span> <span class="token number">300000</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token number">b</span> <span class="token keyword">on</span> <span class="token number">a</span><span class="token punctuation">.</span>id<span class="token operator">=</span><span class="token number">b</span><span class="token punctuation">.</span>id</code></pre>
+<h2 id="golang中new和make的区别"><a href="#golang中new和make的区别" class="headerlink" title="golang中new和make的区别"></a>golang中new和make的区别</h2><ol>
+<li>make 仅用来分配及初始化类型为 slice、map、chan 的数据。new 可分配任意类型的数据.</li>
+<li>new 分配返回的是指针，即类型 *Type。make 返回引用，即 Type.</li>
+<li>new 分配的空间被清零, make 分配空间后，会进行初始化.</li>
+</ol>
+<h2 id="有一个字母翻译对照表，1代表A，2代表B，以此类推至26代表Z，现给一个整形数组，例如-1-2-3-4-5-6-7-8-9-求共有多少种翻译方式"><a href="#有一个字母翻译对照表，1代表A，2代表B，以此类推至26代表Z，现给一个整形数组，例如-1-2-3-4-5-6-7-8-9-求共有多少种翻译方式" class="headerlink" title="有一个字母翻译对照表，1代表A，2代表B，以此类推至26代表Z，现给一个整形数组，例如[1,2,3,4,5,6,7,8,9],求共有多少种翻译方式"></a>有一个字母翻译对照表，1代表A，2代表B，以此类推至26代表Z，现给一个整形数组，例如[1,2,3,4,5,6,7,8,9],求共有多少种翻译方式</h2><pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"fmt"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    s <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">}</span>
+    dict <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">27</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//初始化字典</span>
+        dict<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">string</span><span class="token punctuation">(</span><span class="token string">'A'</span> <span class="token operator">+</span> <span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    count <span class="token operator">:=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> i <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+            count<span class="token operator">++</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> s<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">*</span><span class="token number">10</span><span class="token operator">+</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token number">27</span> <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">*</span><span class="token number">10</span><span class="token operator">+</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">{</span>
+            count<span class="token operator">++</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="redis-zset的数据结构"><a href="#redis-zset的数据结构" class="headerlink" title="redis zset的数据结构"></a>redis zset的数据结构</h2><p><img src="https://upload-images.jianshu.io/upload_images/6217974-0fcba56ef3b682ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="zset结构"><br>如图所示，L0层存储所有的数据，L1层随机抽取几个组成一个系数索引，L2层进一步抽取L1层，从而组成一个多层稀疏索引，这样就可以用二分法快速的找出所需要的数据了</p>
+<h2 id="利用redis做一个延时事件执行系统-设计"><a href="#利用redis做一个延时事件执行系统-设计" class="headerlink" title="利用redis做一个延时事件执行系统(设计)"></a>利用redis做一个延时事件执行系统(设计)</h2><p><img src="https://upload-images.jianshu.io/upload_images/6217974-e1cdb7bcbf1a5f08.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="延时执行设计"><br>当时想的设计跟盒子科技的这张PPT高度类似，以时间为score，以事件数组为value，存储成一个zset，然后定期去取一定数量的事件进行执行。如果延时执行事件比较稀疏，就设定一个值，比如每次取的事件必须是一分钟内的，一分钟内没有时间则等待下次再取。</p>
+<h1 id="二面"><a href="#二面" class="headerlink" title="二面"></a>二面</h1><h2 id="PHP代码sleep的时候，进程状态是怎样的，进程都有哪几种状态"><a href="#PHP代码sleep的时候，进程状态是怎样的，进程都有哪几种状态" class="headerlink" title="PHP代码sleep的时候，进程状态是怎样的，进程都有哪几种状态"></a>PHP代码sleep的时候，进程状态是怎样的，进程都有哪几种状态</h2><ol>
+<li>创建状态</li>
+<li>就绪状态</li>
+<li>运行状态</li>
+<li>阻塞状态</li>
+<li>终止状态</li>
+</ol>
+<p>当代码执行sleep的时候进程处于阻塞状态</p>
+<h2 id="linux系统中如何查看进程状态"><a href="#linux系统中如何查看进程状态" class="headerlink" title="linux系统中如何查看进程状态"></a>linux系统中如何查看进程状态</h2><p>使用命令 <code>ps -aux</code>，STAT列即为进程状态<br><img src="https://tvax3.sinaimg.cn/large/9f8a45fbly1glzwl979zwj20gi08bdia.jpg" alt="进程示例"></p>
+<h3 id="linux上进程有五种状态"><a href="#linux上进程有五种状态" class="headerlink" title="linux上进程有五种状态"></a>linux上进程有五种状态</h3><ol>
+<li>R——Runnable（运行）：正在运行或在运行队列中等待</li>
+<li>S——sleeping（中断）：休眠中，受阻，在等待某个条件的形成或接收到信号</li>
+<li>D——uninterruptible sleep(不可中断)：收到信号不唤醒和不可运行，进程必须等待直到有中断发生</li>
+<li>Z——zombie（僵死）：进程已终止，但进程描述还在，直到父进程调用wait4()系统调用后释放</li>
+<li>T——traced or stoppd(停止)：进程收到SiGSTOP,SIGSTP,SIGTOU信号后停止运行<h3 id="状态后缀表示："><a href="#状态后缀表示：" class="headerlink" title="状态后缀表示："></a>状态后缀表示：</h3><code>&lt;</code>：优先级高的进程<br><code>N</code>：优先级低的进程<br><code>L</code>：有些页被锁进内存<br><code>s</code>：进程的领导者（在它之下有子进程）<br><code>l</code>：ismulti-threaded (using CLONE_THREAD, like NPTL pthreads do)<br><code>+</code>：位于后台的进程组</li>
+</ol>
+<h2 id="数据库事务的实现原理"><a href="#数据库事务的实现原理" class="headerlink" title="数据库事务的实现原理"></a>数据库事务的实现原理</h2><p>数据库不同的存储引擎可能会有一些区别。这里拿常用的InnerDB存储引擎举例：</p>
+<h3 id="原子性实现原理："><a href="#原子性实现原理：" class="headerlink" title="原子性实现原理："></a>原子性实现原理：</h3><p>通过数据库Undo Log实现的。事务中在操作任何数据之前，首先将原数据备份到Undo Log然后进行数据的修改。如果事务中有任意操作发生异常或用户执行了 Rollback 语句，那么数据库就会使用Undo Log中的备份将数据恢复到事务开始之前的状态。 </p>
+<h3 id="一致性实现原理："><a href="#一致性实现原理：" class="headerlink" title="一致性实现原理："></a>一致性实现原理：</h3><p>与原子性实现原理一样也是利用Undo Log</p>
+<h3 id="持久性实现原理："><a href="#持久性实现原理：" class="headerlink" title="持久性实现原理："></a>持久性实现原理：</h3><p>通过数据库Redo Log实现的，Redo Log与Undo Log 相反，Redo Log 记录的是新数据的备份，事务提交之前，会把数据备份到Redo Log中并持久化。当系统崩溃时，虽然数据没有持久化到数据库中，但是 Redo Log 已经持久化。系统可以根据 Redo Log 的内容，将所有数据恢复到最新的</p>
+<h3 id="隔离性实现原理："><a href="#隔离性实现原理：" class="headerlink" title="隔离性实现原理："></a>隔离性实现原理：</h3><p>隔离性的实现原理比较特殊，是通过数据库锁的机制实现的。<br>隔离性分四个级别：读未提交（Read uncommitted）、读已提交（Read committed）、可重复读（Repeatable reads）、可序列化(Serializable)<br>MySQL的默认隔离级别就是Repeatable,Oracle默认Read committed</p>
+<h4 id="读未提交：一个事务可以读到另外一个事务未提交的数据。脏读"><a href="#读未提交：一个事务可以读到另外一个事务未提交的数据。脏读" class="headerlink" title="读未提交：一个事务可以读到另外一个事务未提交的数据。脏读"></a>读未提交：一个事务可以读到另外一个事务未提交的数据。脏读</h4><p>实现：事务在读数据的时候并未对数据进行加锁。<br>事务在发生更新数据的瞬间，必须先对其加 行级共享锁，直到事务结束才释放。<br>举例：事务A读取某行记录时(没有加锁)，事务2也能对这行记录进行读取、更新。当事务B对该记录进行更新时，事务A读取该记录，能读到事务B对该记录的修改版本，即使该修改尚未被提交。<br> 事务A更新某行记录时，事务B不能对这行记录做更新，直到事务A结束。</p>
+<h4 id="读已提交：一个事务可以读到另外一个事务提交的数据。不可重复读"><a href="#读已提交：一个事务可以读到另外一个事务提交的数据。不可重复读" class="headerlink" title="读已提交：一个事务可以读到另外一个事务提交的数据。不可重复读"></a>读已提交：一个事务可以读到另外一个事务提交的数据。不可重复读</h4><p>实现：事务对当前被读取的数据加 行级共享锁（当读到时才加锁），一旦读完该行，立即释放该行级共享锁；<br> 事务在更新某数据的瞬间（就是发生更新的瞬间），必须先对其加 行级排他锁，直到事务结束才释放。<br>原理：事务A读取某行记录时，事务B也能对这行记录进行读取、更新；当事务B对该记录进行更新时，事务A再次读取该记录，读到的只能是事务B对其更新前的版本，或者事务B提交后的版本。<br>事务A更新某行记录时，事务B不能对这行记录做更新，直到事务1结束。<br>流程描述：事务A读操作会加上共享锁，事务B写操作时会加上排他锁，当事务B正在写操作时，事务A要读操作，发现有排他锁，事务A就会阻塞，等待排他锁释放(事务B写操作提交才会释放)，才能进行读操作。</p>
+<h4 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h4><p>实现：事务在读取某数据的瞬间（就是开始读取的瞬间），必须先对其加 行级共享锁，直到事务结束才释放；<br>事务在更新某数据的瞬间（就是发生更新的瞬间），必须先对其加 行级排他锁，直到事务结束才释放。<br>举例：事务A读取某行记录时，事务B也能对这行记录进行读取、更新；当事务B对该记录进行更新时，事务A再次读取该记录，读到的仍然是第一次读取的那个版本。<br>事务A更新某行记录时，事务B不能对这行记录做更新，直到事务1结束。</p>
+<h4 id="可序列化-Serializable-写操作串联执行"><a href="#可序列化-Serializable-写操作串联执行" class="headerlink" title="可序列化(Serializable) 写操作串联执行"></a>可序列化(Serializable) 写操作串联执行</h4><p>实现：事务在读取数据时，必须先对其加 表级共享锁 ，直到事务结束才释放；<br>事务在更新数据时，必须先对其加 表级排他锁 ，直到事务结束才释放。<br>举例：事务A正在读取A表中的记录时，则事务B也能读取A表，但不能对A表做更新、新增、删除，直到事务A结束。<br>事务A正在更新A表中的记录时，则事务B不能读取A表的任意记录，更不可能对A表做更新、新增、删除，直到事务A结束。<br>原理：在读操作时，加表级共享锁，事务结束时释放；写操作时候，加表级独占锁，事务结束时释放。</p>
+<h2 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h2><p>跟聚集索引是一个东西，参见上面的聚集索引</p>
+<h2 id="反转一个链表，如1-gt-2-gt-3-gt-4-gt-5-gt-6，转为1-gt-5-gt-4-gt-3-gt-2-gt-6"><a href="#反转一个链表，如1-gt-2-gt-3-gt-4-gt-5-gt-6，转为1-gt-5-gt-4-gt-3-gt-2-gt-6" class="headerlink" title="反转一个链表，如1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6，转为1-&gt;5-&gt;4-&gt;3-&gt;2-&gt;6"></a>反转一个链表，如1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6，转为1-&gt;5-&gt;4-&gt;3-&gt;2-&gt;6</h2><pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token comment" spellcheck="true">// ListNode 链表节点</span>
+<span class="token keyword">type</span> ListNode <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Val  <span class="token builtin">int</span>
+    Next <span class="token operator">*</span>ListNode
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//反转链表的实现</span>
+<span class="token keyword">func</span> <span class="token function">reversrList</span><span class="token punctuation">(</span>head <span class="token operator">*</span>ListNode<span class="token punctuation">)</span> <span class="token operator">*</span>ListNode <span class="token punctuation">{</span>
+    cur <span class="token operator">:=</span> head
+    <span class="token keyword">var</span> pre <span class="token operator">*</span>ListNode <span class="token operator">=</span> <span class="token boolean">nil</span>
+    <span class="token keyword">for</span> cur <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        pre<span class="token punctuation">,</span> cur<span class="token punctuation">,</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> cur<span class="token punctuation">,</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">,</span> pre <span class="token comment" spellcheck="true">//这句话最重要</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> pre
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// Print 打印链表</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>l <span class="token operator">*</span>ListNode<span class="token punctuation">)</span> <span class="token function">Print</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> l <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> l<span class="token punctuation">.</span>Val <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">{</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>l<span class="token punctuation">.</span>Val<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        l <span class="token operator">=</span> l<span class="token punctuation">.</span>Next
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    m <span class="token operator">:=</span> <span class="token number">1</span>
+    n <span class="token operator">:=</span> <span class="token number">4</span>
+    root <span class="token operator">:=</span> <span class="token function">new</span><span class="token punctuation">(</span>ListNode<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//头结点</span>
+    p <span class="token operator">:=</span> root
+    <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">7</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//初始化链表</span>
+        node <span class="token operator">:=</span> <span class="token function">new</span><span class="token punctuation">(</span>ListNode<span class="token punctuation">)</span>
+        node<span class="token punctuation">.</span>Val <span class="token operator">=</span> i
+        p<span class="token punctuation">.</span>Next <span class="token operator">=</span> node
+        p <span class="token operator">=</span> p<span class="token punctuation">.</span>Next
+    <span class="token punctuation">}</span>
+    p<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token function">new</span><span class="token punctuation">(</span>ListNode<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//尾节点</span>
+    l1 <span class="token operator">:=</span> root
+    <span class="token keyword">var</span> l2<span class="token punctuation">,</span> l3 <span class="token operator">*</span>ListNode
+    p <span class="token operator">=</span> root
+    index <span class="token operator">:=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> l3 <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//截成三段</span>
+        <span class="token keyword">if</span> index <span class="token operator">==</span> m <span class="token punctuation">{</span>
+            l2 <span class="token operator">=</span> p<span class="token punctuation">.</span>Next
+            p<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token boolean">nil</span>
+            p <span class="token operator">=</span> l2
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> index <span class="token operator">==</span> n <span class="token punctuation">{</span>
+            l3 <span class="token operator">=</span> p<span class="token punctuation">.</span>Next
+            p<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token boolean">nil</span>
+        <span class="token punctuation">}</span>
+        p <span class="token operator">=</span> p<span class="token punctuation">.</span>Next
+        index<span class="token operator">++</span>
+    <span class="token punctuation">}</span>
+    l2 <span class="token operator">=</span> <span class="token function">reversrList</span><span class="token punctuation">(</span>l2<span class="token punctuation">)</span><span class="token comment" spellcheck="true">// 反转l2</span>
+    list <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>ListNode<span class="token punctuation">{</span>l2<span class="token punctuation">,</span> l3<span class="token punctuation">}</span>
+    p <span class="token operator">=</span> l1
+    index <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> index <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//拼接起来</span>
+        <span class="token keyword">for</span> p<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+            p <span class="token operator">=</span> p<span class="token punctuation">.</span>Next
+        <span class="token punctuation">}</span>
+        p<span class="token punctuation">.</span>Next <span class="token operator">=</span> list<span class="token punctuation">[</span>index<span class="token punctuation">]</span>
+        index<span class="token operator">++</span>
+    <span class="token punctuation">}</span>
+    l1<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
