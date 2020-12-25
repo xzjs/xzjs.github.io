@@ -60,8 +60,8 @@ keywords提供的网页关键词通常是为搜索引擎分类网页使用的；
 由于网页制作者滥用keywords(提供过多的关键词或者提供与网页无关的关键词)，导致目前常用的搜索引擎降低了keywords的重要性。
     **keywords:** miccall
 
-3.主页背景图片：默认链接是在主站以下目录的 "img/bg.jpg" 就代表"miccall.tech/img/bg.jpg" 暂不支持外链
-    **backgroundpic :** "img/bg.jpg"
+3.主页背景图片：默认链接是在主站以下目录的 "img/bg.png" 就代表"miccall.tech/img/bg.png" 暂不支持外链
+    **backgroundpic :** "img/bg.png"
 
 
 ##### 二 . Intro: 主题刚开始加载的界面
@@ -190,7 +190,7 @@ keywords提供的网页关键词通常是为搜索引擎分类网页使用的；
         layout: tags
         ---
         ```
-1. 修改背景图片：更换`\themes\miccall\source\images`中的`bg.jpg`，不要改名，否则需要更改CSS内容。
+1. 修改背景图片：更换`\themes\miccall\source\images`中的`bg.png`，不要改名，否则需要更改CSS内容。
 
 1. 修改导航栏下面的个人图片：更换`\themes\miccall\source\img`中的`me.jpg`，不要改名，否则需要更改CSS内容。
 

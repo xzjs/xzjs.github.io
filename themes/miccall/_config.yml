@@ -6,7 +6,7 @@
 head:
     favicon: "/img/me.png"
     keywords: miccall
-    backgroundpic : "img/bg.jpg"
+    backgroundpic : "img/bg.png"
 
 Intro:
     name: 君应有语
