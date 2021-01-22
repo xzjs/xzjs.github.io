@@ -2,6 +2,8 @@
 title: 手摸手从0开始k8s
 date: 2021-01-22 18:13:40
 tags: k8s
+categories: 实战
+thumbnail: https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181222%2F64fd5dd0f7c54c69913f0cc5e66de481.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1613903094&t=a8a683367c2b8fa1d721b2fba2011f28
 ---
 # 安装kubeadm
 [参考文档](https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
@@ -48,7 +50,9 @@ k8s中的服务如果想被外网访问，就需要用ingress做一个负载均�
 [yaml文件](https://github.com/kubernetes/ingress-nginx/blob/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml)
 ## 坑
 安装的时候由于只有一个node，ingress默认不往master上装，需要让master节点参与工作负载
+
 `kubectl taint nodes --all node-role.kubernetes.io/master-`
+
 此处使用NodePort + External IP的方式，需要修改该yaml文件中name为ingress-nginx-controller的service，添加externalIP
 ```
 externalIPs:
@@ -351,12 +355,25 @@ spec:
        selfSignedCertificate:
         disabled: true
 ```
+
 `kubectl apply -f kibana.yaml`
-检测服务是否可用`kubectl get kibana`
+
+检测服务是否可用
+
+`kubectl get kibana`
+
 ![Screen Shot 2021-01-22 at 4.49.59 PM](https://upload-images.jianshu.io/upload_images/6217974-1e1daa2f6e344d4a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 使用nodeport对外网暴露
+
 `nohup kubectl port-forward service/kibana-kb-http --address 0.0.0.0 5601 &`
+
 访问服务器的5601端口，出现登录界面
-登录帐号为elastic，登录密码使用`PASSWORD=$(kubectl get secret quickstart-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')`获取
+登录帐号为elastic，登录密码使用以下命令获取
+
+```
+PASSWORD=$(kubectl get secret quickstart-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')
+```
+
 # 打完收工
 至此，一套k8s就部署好了，以后有什么问题我会补充在这里的
