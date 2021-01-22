@@ -100,6 +100,7 @@ spec:
 ### 坑
 1. 使用文件修改设置无效，完全不知道为啥，只能在命令行里打这么一串了
 2. mysql 启动会检测，这个时候会报`error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'`,得进pod将这玩意的权限改成777，mysql才能启动成功
+
 # 安装redis
 ## 创建pv
 ```yaml
@@ -121,6 +122,7 @@ spec:
 `kubectl create -f redis-pv.yaml`
 `helm install redis --set usePassword=false --set cluster.enabled=false bitnami/redis`
 > 不想要主从，所以cluster.enabled=false
+
 # 部署应用
 编写部署文件forum.yaml
 ```yaml
@@ -171,8 +173,10 @@ spec:
   - port: 8888
 ```
 `kubectl apply -f forum.yaml`
+
 # 配置ingress
-```
+
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -191,17 +195,26 @@ spec:
                   number: 8888
 ```
 `kubectl apply -f forum-ing.yaml`
+
 # 挂载host
-![ihost](https://upload-images.jianshu.io/upload_images/6217974-08d12f9abbbf5c31.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![Screen Shot 2021-01-22 at 10.33.26 AM](https://tvax3.sinaimg.cn/large/9f8a45fbly1gmwnlyfe5gj218i0qudij.jpg)
+
 # 访问应用测试
-![apifox](https://upload-images.jianshu.io/upload_images/6217974-d7492bc1c2bd6e3d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![apifox](https://tva4.sinaimg.cn/large/9f8a45fbly1gmw9qh1fn7j21ka1447a4.jpg)
+
 # 安装elasticsearch+flutend+kibana
 ## 安装eck
+
 有了这货装es全家桶会轻松一点，直接用helm装要了老命了
 `kubectl apply -f https://download.elastic.co/downloads/eck/1.3.1/all-in-one.yaml`
-![WX20210122-105738](https://upload-images.jianshu.io/upload_images/6217974-b3048dfb07b592da.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![WX20210122-105738](https://tvax4.sinaimg.cn/large/9f8a45fbly1gmwad5fsfpj20k309fjt4.jpg)
+
 ## 创建PV
-```
+
+```yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -216,12 +229,14 @@ spec:
   hostPath:
     path: /data/k8s/es
 ```
+
 没有加StorageClass,这样就会使用默认的sc，es可以自动识别，分配pvc
-```
-kubectl create -f es-pv.yaml
-```
+
+`kubectl create -f es-pv.yaml`
+
 ## 安装es
-```
+
+```yaml
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
@@ -234,10 +249,14 @@ spec:
     config:
       node.store.allow_mmap: false
 ```
+
 `kubectl apply -f es.yaml`
+
 然后检测服务是否正常`kubectl get elasticsearch`
-![Screen Shot 2021-01-22 at 4.29.22 PM](https://upload-images.jianshu.io/upload_images/6217974-831d99b5345c53ef.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Screen Shot 2021-01-22 at 4.29.22 PM](https://tva4.sinaimg.cn/large/9f8a45fbly1gmwjzh4oo3j208y01it8o.jpg)
+
 ## 安装fluentd
+
 ```yaml
 apiVersion: apps/v1
 kind: DaemonSet
@@ -315,7 +334,9 @@ spec:
         hostPath:
           path: /var/lib/docker/containers
 ```
+
 还需要创建一个授权角色，否则会报错
+
 ```yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -362,7 +383,7 @@ spec:
 
 `kubectl get kibana`
 
-![Screen Shot 2021-01-22 at 4.49.59 PM](https://upload-images.jianshu.io/upload_images/6217974-1e1daa2f6e344d4a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Screen Shot 2021-01-22 at 4.49.59 PM](https://tvax4.sinaimg.cn/large/9f8a45fbly1gmwkkz8hg5j208b01cglk.jpg)
 
 使用nodeport对外网暴露
 
