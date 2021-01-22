@@ -1,0 +1,403 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="安装kubeadm"><a href="#安装kubeadm" class="headerlink" title="安装kubeadm"></a>安装kubeadm</h1><p><a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/" target="_blank" rel="noopener">参考文档</a><br>基本没有遇到什么问题</p>
+<h1 id="创建集群"><a href="#创建集群" class="headerlink" title="创建集群"></a>创建集群</h1><p>使用了阿里云的镜像</p>
+<pre><code>sudo kubeadm init --pod-network-cidr 172.16.0.0/16 \
+    --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</code></pre>
+<p>上面的命令执行成功后，会输出一条和kubeadm join相关的命令，后面加入worker node的时候要使用。另外，给自己的非sudo的常规身份拷贝一个token，这样就可以执行kubectl命令了</p>
+<pre><code>mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
+<h1 id="安装calico插件"><a href="#安装calico插件" class="headerlink" title="安装calico插件"></a>安装calico插件</h1><p><a href="https://docs.projectcalico.org/v3.11/manifests/calico.yaml" target="_blank" rel="noopener">yaml文件</a><br>修改里面的CALICO_IPV4POOL_CIDR的值来避免和宿主机所在的局域网段冲突（把原始的192.168.0.0/16 修改成了172.16.0.0/16)<br><code>kubectl apply -f calico.yaml</code></p>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><p>这儿踩了个大坑，一直有一个node在running，但是没有ready，导致我后面pod之间互相无法访问，查了一下日志发现有一个fatal</p>
+<pre><code>int_dataplane.go 1035: Kernel&#39;s RPF check is set to &#39;loose&#39;.  \
+This would allow endpoints to spoof their IP address.  \
+Calico requires net.ipv4.conf.all.rp_filter to be set to 0 or 1. \
+If you require loose RPF and you are not concerned about spoofing, \
+this check can be disabled by setting the IgnoreLooseRPF configuration parameter to &#39;true&#39;.</code></pre>
+<p>查了资料发现calico需要内核参数是0或者1，但是Ubuntu20.04上默认是2，这样就会导致calico插件报这个错误，使用下面的命令修改</p>
+<pre><code>#修改/etc/sysctl.d/10-network-security.conf
+$ sudo vi /etc/sysctl.d/10-network-security.conf
+
+#将下面两个参数的值从2修改为1
+#net.ipv4.conf.default.rp_filter=1
+#net.ipv4.conf.all.rp_filter=1
+
+#然后使之生效
+$ sudo sysctl --system</code></pre>
+<h1 id="安装ingress"><a href="#安装ingress" class="headerlink" title="安装ingress"></a>安装ingress</h1><p>k8s中的服务如果想被外网访问，就需要用ingress做一个负载均衡<br><a href="https://github.com/kubernetes/ingress-nginx/blob/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml" target="_blank" rel="noopener">yaml文件</a></p>
+<h2 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h2><p>安装的时候由于只有一个node，ingress默认不往master上装，需要让master节点参与工作负载</p>
+<p><code>kubectl taint nodes --all node-role.kubernetes.io/master-</code></p>
+<p>此处使用NodePort + External IP的方式，需要修改该yaml文件中name为ingress-nginx-controller的service，添加externalIP</p>
+<pre><code>externalIPs:
+ - 10.0.7.144(node的ip)</code></pre>
+<h1 id="部署mysql"><a href="#部署mysql" class="headerlink" title="部署mysql"></a>部署mysql</h1><h2 id="创建pv"><a href="#创建pv" class="headerlink" title="创建pv"></a>创建pv</h2><p>pv.yaml</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> PersistentVolume
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> pv
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">capacity</span><span class="token punctuation">:</span>
+    <span class="token key atrule">storage</span><span class="token punctuation">:</span> 20Gi
+  <span class="token key atrule">accessModes</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> ReadWriteOnce
+    <span class="token punctuation">-</span> ReadOnlyMany
+  <span class="token key atrule">persistentVolumeReclaimPolicy</span><span class="token punctuation">:</span> Retain
+  <span class="token key atrule">hostPath</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> /data/k8s/mysql</code></pre>
+<p>创建pv<br><code>kubectl create -f pv.yaml</code></p>
+<h2 id="创建pvc"><a href="#创建pvc" class="headerlink" title="创建pvc"></a>创建pvc</h2><p>mysql-pvc.yaml</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> PersistentVolumeClaim
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> mysql<span class="token punctuation">-</span>pvc
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">storageClassName</span><span class="token punctuation">:</span> <span class="token string">""</span>
+  <span class="token key atrule">accessModes</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> ReadWriteOnce
+  <span class="token key atrule">resources</span><span class="token punctuation">:</span>
+    <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+      <span class="token key atrule">storage</span><span class="token punctuation">:</span> 2Gi</code></pre>
+<p>创建pvc<br><code>kubectl create -f mysql-pvc.yaml</code></p>
+<h2 id="使用helm安装mysql"><a href="#使用helm安装mysql" class="headerlink" title="使用helm安装mysql"></a>使用helm安装mysql</h2><p><code>helm install mysql bitnami/mysql --set auth.rootPassword=root --set primary.persistence.existingClaim=mysql-pvc --set auth.database=forum</code></p>
+<h3 id="坑-2"><a href="#坑-2" class="headerlink" title="坑"></a>坑</h3><ol>
+<li>使用文件修改设置无效，完全不知道为啥，只能在命令行里打这么一串了</li>
+<li>mysql 启动会检测，这个时候会报<code>error: &#39;Can&#39;t connect to local MySQL server through socket &#39;/opt/bitnami/mysql/tmp/mysql.sock&#39; (2)&#39;</code>,得进pod将这玩意的权限改成777，mysql才能启动成功<h1 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h1><h2 id="创建pv-1"><a href="#创建pv-1" class="headerlink" title="创建pv"></a>创建pv</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> PersistentVolume
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+<span class="token key atrule">name</span><span class="token punctuation">:</span> redis<span class="token punctuation">-</span>pv
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+<span class="token key atrule">storageClassName</span><span class="token punctuation">:</span> manual
+<span class="token key atrule">capacity</span><span class="token punctuation">:</span>
+ <span class="token key atrule">storage</span><span class="token punctuation">:</span> 2Gi
+<span class="token key atrule">accessModes</span><span class="token punctuation">:</span>
+ <span class="token punctuation">-</span> ReadWriteOnce
+ <span class="token punctuation">-</span> ReadOnlyMany
+<span class="token key atrule">persistentVolumeReclaimPolicy</span><span class="token punctuation">:</span> Retain
+<span class="token key atrule">hostPath</span><span class="token punctuation">:</span>
+ <span class="token key atrule">path</span><span class="token punctuation">:</span> /data/k8s/redis</code></pre>
+<code>kubectl create -f redis-pv.yaml</code><br><code>helm install redis --set usePassword=false --set cluster.enabled=false bitnami/redis</code><blockquote>
+<p>不想要主从，所以cluster.enabled=false</p>
+</blockquote>
+<h1 id="部署应用"><a href="#部署应用" class="headerlink" title="部署应用"></a>部署应用</h1>编写部署文件forum.yaml<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+<span class="token key atrule">name</span><span class="token punctuation">:</span> forum
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+<span class="token key atrule">selector</span><span class="token punctuation">:</span>
+ <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+   <span class="token key atrule">app</span><span class="token punctuation">:</span> forum
+<span class="token key atrule">template</span><span class="token punctuation">:</span>
+ <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+   <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+     <span class="token key atrule">app</span><span class="token punctuation">:</span> forum
+ <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+   <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+   <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> forum
+     <span class="token key atrule">image</span><span class="token punctuation">:</span> registry.cn<span class="token punctuation">-</span>hangzhou.aliyuncs.com/xzjs/forum
+     <span class="token key atrule">env</span><span class="token punctuation">:</span>
+     <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> DBUSER
+       <span class="token key atrule">value</span><span class="token punctuation">:</span> root
+     <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> DBPWD
+       <span class="token key atrule">value</span><span class="token punctuation">:</span> root
+     <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> DBHOST
+       <span class="token key atrule">value</span><span class="token punctuation">:</span> mysql
+     <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> DBPORT
+       <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token string">'3306'</span>
+     <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> DBNAME
+       <span class="token key atrule">value</span><span class="token punctuation">:</span> forum
+     <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> USER_IP
+       <span class="token key atrule">value</span><span class="token punctuation">:</span> 10.0.7.144
+     <span class="token key atrule">resources</span><span class="token punctuation">:</span>
+       <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+         <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"128Mi"</span>
+         <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"500m"</span>
+     <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+     <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">8888</span></code></pre>
+</li>
+</ol>
+<hr>
+<p>apiVersion: v1<br>kind: Service<br>metadata:<br>  name: forum<br>spec:<br>  selector:<br>    app: forum<br>  ports:</p>
+<ul>
+<li>port: 8888<pre><code>`kubectl apply -f forum.yaml`
+# 配置ingress</code></pre>
+apiVersion: networking.k8s.io/v1<br>kind: Ingress<br>metadata:<br>name: forum<br>spec:<br>rules:<ul>
+<li>host: <a href="http://www.rsaicp.com/" target="_blank" rel="noopener">www.rsaicp.com</a><br>http:<br>  paths:<pre><code>- path: /api/v1/forum/
+  pathType: Prefix
+  backend:
+    service:
+      name: forum
+      port:
+        number: 8888</code></pre>
+<pre><code>`kubectl apply -f forum-ing.yaml`
+# 挂载host
+![ihost](https://upload-images.jianshu.io/upload_images/6217974-08d12f9abbbf5c31.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+# 访问应用测试
+![apifox](https://upload-images.jianshu.io/upload_images/6217974-d7492bc1c2bd6e3d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+# 安装elasticsearch+flutend+kibana
+## 安装eck
+有了这货装es全家桶会轻松一点，直接用helm装要了老命了
+`kubectl apply -f https://download.elastic.co/downloads/eck/1.3.1/all-in-one.yaml`
+![WX20210122-105738](https://upload-images.jianshu.io/upload_images/6217974-b3048dfb07b592da.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+## 创建PV</code></pre>
+apiVersion: v1<br>kind: PersistentVolume<br>metadata:<br>name: es-pv<br>spec:<br>capacity:<br>storage: 5Gi<br>accessModes:</li>
+<li>ReadWriteOnce</li>
+<li>ReadOnlyMany<br>persistentVolumeReclaimPolicy: Retain<br>hostPath:<br>path: /data/k8s/es<pre><code>没有加StorageClass,这样就会使用默认的sc，es可以自动识别，分配pvc</code></pre>
+kubectl create -f es-pv.yaml<pre><code>## 安装es</code></pre>
+apiVersion: elasticsearch.k8s.elastic.co/v1<br>kind: Elasticsearch<br>metadata:<br>name: es<br>spec:<br>version: 7.10.2<br>nodeSets:</li>
+</ul>
+</li>
+<li>name: default<br>count: 1<br>config:<br>  node.store.allow_mmap: false<pre><code>`kubectl apply -f es.yaml`
+然后检测服务是否正常`kubectl get elasticsearch`
+![Screen Shot 2021-01-22 at 4.29.22 PM](https://upload-images.jianshu.io/upload_images/6217974-831d99b5345c53ef.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+## 安装fluentd
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+name: fluentd
+labels:
+k8s-app: fluentd-logging
+version: v1
+spec:
+selector:
+matchLabels:
+  k8s-app: fluentd-logging
+  version: v1
+template:
+metadata:
+  labels:
+    k8s-app: fluentd-logging
+    version: v1
+spec:
+  tolerations:
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
+  containers:
+  - name: fluentd
+    image: fluent/fluentd-kubernetes-daemonset:v1-debian-elasticsearch
+    env:
+      - name:  FLUENT_ELASTICSEARCH_HOST
+        # value: &quot;quickstart-es-http&quot;
+        value: &quot;10.99.15.145&quot;
+      - name:  FLUENT_ELASTICSEARCH_PORT
+        value: &quot;9200&quot;
+      - name: FLUENT_ELASTICSEARCH_SCHEME
+        value: &quot;https&quot;
+      # Option to configure elasticsearch plugin with self signed certs
+      # ================================================================
+      - name: FLUENT_ELASTICSEARCH_SSL_VERIFY
+        value: &quot;false&quot;
+      # Option to configure elasticsearch plugin with tls
+      # ================================================================
+      - name: FLUENT_ELASTICSEARCH_SSL_VERSION
+        value: &quot;TLSv1_2&quot;
+      # X-Pack Authentication
+      # =====================
+      - name: FLUENT_ELASTICSEARCH_USER
+        value: &quot;elastic&quot;
+      - name: FLUENT_ELASTICSEARCH_PASSWORD
+        value: &quot;ms7xW92w791drxr30yPg92EG&quot;
+      # Logz.io Authentication
+      # ======================
+      - name: LOGZIO_TOKEN
+        value: &quot;ThisIsASuperLongToken&quot;
+      - name: LOGZIO_LOGTYPE
+        value: &quot;kubernetes&quot;
+      - name: FLUENTD_SYSTEMD_CONF
+        value: disable
+    resources:
+      limits:
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+    - name: varlibdockercontainers
+      mountPath: /var/lib/docker/containers
+      readOnly: true
+  terminationGracePeriodSeconds: 30
+  serviceAccount: fluent-account
+  volumes:
+  - name: varlog
+    hostPath:
+      path: /var/log
+  - name: varlibdockercontainers
+    hostPath:
+      path: /var/lib/docker/containers</code></pre>
+还需要创建一个授权角色，否则会报错<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+<span class="token key atrule">name</span><span class="token punctuation">:</span> fluent<span class="token punctuation">-</span>account</code></pre>
+</li>
+</ul>
+<hr>
+<p>apiVersion: rbac.authorization.k8s.io/v1<br>kind: ClusterRoleBinding<br>metadata:<br>  name: fluent-account<br>roleRef:<br>  kind: ClusterRole<br>  name: view<br>  apiGroup: rbac.authorization.k8s.io<br>subjects:</p>
+<ul>
+<li>kind: ServiceAccount<br>name: fluent-account<br>namespace: default<pre><code></code></pre>
+kubectl apply -f role.yaml<br>kubectl apply -f fluentd.yaml<pre><code>## 安装kibana
+```yaml
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+name: kibana
+spec:
+version: 7.10.2
+count: 1
+elasticsearchRef:
+name: es
+http:
+tls:
+   selfSignedCertificate:
+    disabled: true</code></pre>
+</li>
+</ul>
+<p><code>kubectl apply -f kibana.yaml</code></p>
+<p>检测服务是否可用</p>
+<p><code>kubectl get kibana</code></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6217974-1e1daa2f6e344d4a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Screen Shot 2021-01-22 at 4.49.59 PM"></p>
+<p>使用nodeport对外网暴露</p>
+<p><code>nohup kubectl port-forward service/kibana-kb-http --address 0.0.0.0 5601 &amp;</code></p>
+<p>访问服务器的5601端口，出现登录界面<br>登录帐号为elastic，登录密码使用以下命令获取</p>
+<pre><code>PASSWORD=$(kubectl get secret quickstart-es-elastic-user -o go-template=&#39;{{.data.elastic | base64decode}}&#39;)</code></pre>
+<h1 id="打完收工"><a href="#打完收工" class="headerlink" title="打完收工"></a>打完收工</h1><p>至此，一套k8s就部署好了，以后有什么问题我会补充在这里的</p>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
