@@ -53,10 +53,17 @@ k8s中的服务如果想被外网访问，就需要用ingress做一个负载均�
 
 `kubectl taint nodes --all node-role.kubernetes.io/master-`
 
-此处使用NodePort + External IP的方式，需要修改该yaml文件中name为ingress-nginx-controller的service，添加externalIP
-```
-externalIPs:
- - 10.0.7.144(node的ip)
+~~此处使用NodePort + External IP的方式，需要修改该yaml文件中name为ingress-nginx-controller的service，添加externalIP~~
+不能使用nodeport模式，否则ingress转发的X-Real-Ip是错的，会影响后续程序获取ip，使用hostname只需要设置hostNetwork: true
+```yaml
+spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirst
+      containers:
+        - name: controller
+          # image: k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de
+          image: registry.cn-hangzhou.aliyuncs.com/google_containers/nginx-ingress-controller:v0.41.2
+          imagePullPolicy: IfNotPrese
 ```
 # 部署mysql
 ## 创建pv
