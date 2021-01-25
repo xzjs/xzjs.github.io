@@ -149,9 +149,15 @@ $ sudo sysctl --system</code></pre>
 <h1 id="安装ingress"><a href="#安装ingress" class="headerlink" title="安装ingress"></a>安装ingress</h1><p>k8s中的服务如果想被外网访问，就需要用ingress做一个负载均衡<br><a href="https://github.com/kubernetes/ingress-nginx/blob/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml" target="_blank" rel="noopener">yaml文件</a></p>
 <h2 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h2><p>安装的时候由于只有一个node，ingress默认不往master上装，需要让master节点参与工作负载</p>
 <p><code>kubectl taint nodes --all node-role.kubernetes.io/master-</code></p>
-<p>此处使用NodePort + External IP的方式，需要修改该yaml文件中name为ingress-nginx-controller的service，添加externalIP</p>
-<pre><code>externalIPs:
- - 10.0.7.144(node的ip)</code></pre>
+<p><del>此处使用NodePort + External IP的方式，需要修改该yaml文件中name为ingress-nginx-controller的service，添加externalIP</del><br>不能使用nodeport模式，否则ingress转发的X-Real-Ip是错的，会影响后续程序获取ip，使用hostname只需要设置hostNetwork: true</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">hostNetwork</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+      <span class="token key atrule">dnsPolicy</span><span class="token punctuation">:</span> ClusterFirst
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> controller
+          <span class="token comment" spellcheck="true"># image: k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de</span>
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> registry.cn<span class="token punctuation">-</span>hangzhou.aliyuncs.com/google_containers/nginx<span class="token punctuation">-</span>ingress<span class="token punctuation">-</span>controller<span class="token punctuation">:</span>v0.41.2
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPrese</code></pre>
 <h1 id="部署mysql"><a href="#部署mysql" class="headerlink" title="部署mysql"></a>部署mysql</h1><h2 id="创建pv"><a href="#创建pv" class="headerlink" title="创建pv"></a>创建pv</h2><p>pv.yaml</p>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> PersistentVolume
