@@ -96,7 +96,7 @@ spec:
 创建pvc
 `kubectl create -f mysql-pvc.yaml`
 ## 使用helm安装mysql
-`helm install mysql bitnami/mysql --set auth.rootPassword=root --set primary.persistence.existingClaim=mysql-pvc --set auth.database=forum`
+`helm install mysql bitnami/mysql --set auth.rootPassword=root --set primary.persistence.existingClaim=mysql-pvc --set auth.database=forum --set primary.persistence.enabled=false,secondary.persistence.enabled=false --set primary.readinessProbe.enabled=false,primary.livenessProbe.enabled=false --set secondary.readinessProbe.enabled=false,secondary.livenessProbe.enabled=false`
 ### 坑
 1. 使用文件修改设置无效，完全不知道为啥，只能在命令行里打这么一串了
 2. mysql 启动会检测，这个时候会报`error: 'Can't connect to local MySQL server through socket '/opt/bitnami/mysql/tmp/mysql.sock' (2)'`,得进pod将这玩意的权限改成777，mysql才能启动成功
