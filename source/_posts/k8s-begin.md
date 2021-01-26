@@ -255,12 +255,17 @@ spec:
     count: 1
     config:
       node.store.allow_mmap: false
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
 ```
 
 `kubectl apply -f es.yaml`
 
 然后检测服务是否正常`kubectl get elasticsearch`
 ![Screen Shot 2021-01-22 at 4.29.22 PM](https://tva4.sinaimg.cn/large/9f8a45fbly1gmwjzh4oo3j208y01it8o.jpg)
+> 按照官网搭建的默认使用https，会导致使用的时候因为证书问题各种不方便，所以增加tls配置，关闭https，使用http
 
 ## 安装fluentd
 
@@ -296,7 +301,7 @@ spec:
           - name:  FLUENT_ELASTICSEARCH_PORT
             value: "9200"
           - name: FLUENT_ELASTICSEARCH_SCHEME
-            value: "https"
+            value: "http"
           # Option to configure elasticsearch plugin with self signed certs
           # ================================================================
           - name: FLUENT_ELASTICSEARCH_SSL_VERIFY
@@ -341,6 +346,8 @@ spec:
         hostPath:
           path: /var/lib/docker/containers
 ```
+
+> 此处也使用http协议，不再使用https
 
 还需要创建一个授权角色，否则会报错
 
