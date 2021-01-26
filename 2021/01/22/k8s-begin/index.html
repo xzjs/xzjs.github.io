@@ -302,9 +302,16 @@ $ sudo sysctl --system</code></pre>
   <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> default
     <span class="token key atrule">count</span><span class="token punctuation">:</span> <span class="token number">1</span>
     <span class="token key atrule">config</span><span class="token punctuation">:</span>
-      <span class="token key atrule">node.store.allow_mmap</span><span class="token punctuation">:</span> <span class="token boolean important">false</span></code></pre>
+      <span class="token key atrule">node.store.allow_mmap</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">http</span><span class="token punctuation">:</span>
+    <span class="token key atrule">tls</span><span class="token punctuation">:</span>
+      <span class="token key atrule">selfSignedCertificate</span><span class="token punctuation">:</span>
+        <span class="token key atrule">disabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span></code></pre>
 <p><code>kubectl apply -f es.yaml</code></p>
 <p>然后检测服务是否正常<code>kubectl get elasticsearch</code><br><img src="https://tva4.sinaimg.cn/large/9f8a45fbly1gmwjzh4oo3j208y01it8o.jpg" alt="Screen Shot 2021-01-22 at 4.29.22 PM"></p>
+<blockquote>
+<p>按照官网搭建的默认使用https，会导致使用的时候因为证书问题各种不方便，所以增加tls配置，关闭https，使用http</p>
+</blockquote>
 <h2 id="安装fluentd"><a href="#安装fluentd" class="headerlink" title="安装fluentd"></a>安装fluentd</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> DaemonSet
 <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
@@ -336,7 +343,7 @@ $ sudo sysctl --system</code></pre>
           <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span>  FLUENT_ELASTICSEARCH_PORT
             <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token string">"9200"</span>
           <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> FLUENT_ELASTICSEARCH_SCHEME
-            <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token string">"https"</span>
+            <span class="token key atrule">value</span><span class="token punctuation">:</span> <span class="token string">"http"</span>
           <span class="token comment" spellcheck="true"># Option to configure elasticsearch plugin with self signed certs</span>
           <span class="token comment" spellcheck="true"># ================================================================</span>
           <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> FLUENT_ELASTICSEARCH_SSL_VERIFY
@@ -380,6 +387,9 @@ $ sudo sysctl --system</code></pre>
       <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> varlibdockercontainers
         <span class="token key atrule">hostPath</span><span class="token punctuation">:</span>
           <span class="token key atrule">path</span><span class="token punctuation">:</span> /var/lib/docker/containers</code></pre>
+<blockquote>
+<p>此处也使用http协议，不再使用https</p>
+</blockquote>
 <p>还需要创建一个授权角色，否则会报错</p>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount
