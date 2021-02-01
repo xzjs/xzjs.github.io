@@ -7,7 +7,9 @@ thumbnail: https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.c
 ---
 # 安装kubeadm
 [参考文档](https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
-基本没有遇到什么问题
+## 坑
+1. 下载谷歌的apt-key下载不了，需要先自己翻墙下载下来，然后使用ftp传到服务器上，然后执行`sudo apt-key add ./apt-key.gpg` 进行安装，显示`OK`代表安装成功
+2. kubernetes.list中添加的镜像路径需要使用国内镜像，这里使用清华源镜像`deb https://mirrors.tuna.tsinghua.edu.cn/kubernetes/apt kubernetes-xenial main`
 # 创建集群
 使用了阿里云的镜像
 ```
