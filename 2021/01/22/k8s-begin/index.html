@@ -121,43 +121,45 @@
         <div id="main" >
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <h1 id="安装kubeadm"><a href="#安装kubeadm" class="headerlink" title="安装kubeadm"></a>安装kubeadm</h1><p><a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/" target="_blank" rel="noopener">参考文档</a><br>基本没有遇到什么问题</p>
-<h1 id="创建集群"><a href="#创建集群" class="headerlink" title="创建集群"></a>创建集群</h1><p>使用了阿里云的镜像</p>
-<pre><code>sudo kubeadm init --pod-network-cidr 172.16.0.0/16 \
-    --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</code></pre>
-<p>上面的命令执行成功后，会输出一条和kubeadm join相关的命令，后面加入worker node的时候要使用。另外，给自己的非sudo的常规身份拷贝一个token，这样就可以执行kubectl命令了</p>
-<pre><code>mkdir -p $HOME/.kube
+                <h1 id="安装kubeadm"><a href="#安装kubeadm" class="headerlink" title="安装kubeadm"></a>安装kubeadm</h1><p><a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/" target="_blank" rel="noopener">参考文档</a></p>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><ol>
+<li>下载谷歌的apt-key下载不了，需要先自己翻墙下载下来，然后使用ftp传到服务器上，然后执行<code>sudo apt-key add ./apt-key.gpg</code> 进行安装，显示<code>OK</code>代表安装成功</li>
+<li>kubernetes.list中添加的镜像路径需要使用国内镜像，这里使用清华源镜像<code>deb https://mirrors.tuna.tsinghua.edu.cn/kubernetes/apt kubernetes-xenial main</code><h1 id="创建集群"><a href="#创建集群" class="headerlink" title="创建集群"></a>创建集群</h1>使用了阿里云的镜像<pre><code>sudo kubeadm init --pod-network-cidr 172.16.0.0/16 \
+ --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</code></pre>
+上面的命令执行成功后，会输出一条和kubeadm join相关的命令，后面加入worker node的时候要使用。另外，给自己的非sudo的常规身份拷贝一个token，这样就可以执行kubectl命令了<pre><code>mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
-<h1 id="安装calico插件"><a href="#安装calico插件" class="headerlink" title="安装calico插件"></a>安装calico插件</h1><p><a href="https://docs.projectcalico.org/v3.11/manifests/calico.yaml" target="_blank" rel="noopener">yaml文件</a><br>修改里面的CALICO_IPV4POOL_CIDR的值来避免和宿主机所在的局域网段冲突（把原始的192.168.0.0/16 修改成了172.16.0.0/16)<br><code>kubectl apply -f calico.yaml</code></p>
-<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><p>这儿踩了个大坑，一直有一个node在running，但是没有ready，导致我后面pod之间互相无法访问，查了一下日志发现有一个fatal</p>
-<pre><code>int_dataplane.go 1035: Kernel&#39;s RPF check is set to &#39;loose&#39;.  \
+<h1 id="安装calico插件"><a href="#安装calico插件" class="headerlink" title="安装calico插件"></a>安装calico插件</h1><a href="https://docs.projectcalico.org/v3.11/manifests/calico.yaml" target="_blank" rel="noopener">yaml文件</a><br>修改里面的CALICO_IPV4POOL_CIDR的值来避免和宿主机所在的局域网段冲突（把原始的192.168.0.0/16 修改成了172.16.0.0/16)<br><code>kubectl apply -f calico.yaml</code><h2 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h2>这儿踩了个大坑，一直有一个node在running，但是没有ready，导致我后面pod之间互相无法访问，查了一下日志发现有一个fatal<pre><code>int_dataplane.go 1035: Kernel&#39;s RPF check is set to &#39;loose&#39;.  \
 This would allow endpoints to spoof their IP address.  \
 Calico requires net.ipv4.conf.all.rp_filter to be set to 0 or 1. \
 If you require loose RPF and you are not concerned about spoofing, \
 this check can be disabled by setting the IgnoreLooseRPF configuration parameter to &#39;true&#39;.</code></pre>
-<p>查了资料发现calico需要内核参数是0或者1，但是Ubuntu20.04上默认是2，这样就会导致calico插件报这个错误，使用下面的命令修改</p>
-<pre><code>#修改/etc/sysctl.d/10-network-security.conf
+查了资料发现calico需要内核参数是0或者1，但是Ubuntu20.04上默认是2，这样就会导致calico插件报这个错误，使用下面的命令修改<pre><code>#修改/etc/sysctl.d/10-network-security.conf
 $ sudo vi /etc/sysctl.d/10-network-security.conf
+</code></pre>
+</li>
+</ol>
+<p>#将下面两个参数的值从2修改为1<br>#net.ipv4.conf.default.rp_filter=1<br>#net.ipv4.conf.all.rp_filter=1</p>
+<p>#然后使之生效<br>$ sudo sysctl –system</p>
+<pre><code># 安装ingress
+k8s中的服务如果想被外网访问，就需要用ingress做一个负载均衡
+[yaml文件](https://github.com/kubernetes/ingress-nginx/blob/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml)
+## 坑
+安装的时候由于只有一个node，ingress默认不往master上装，需要让master节点参与工作负载
 
-#将下面两个参数的值从2修改为1
-#net.ipv4.conf.default.rp_filter=1
-#net.ipv4.conf.all.rp_filter=1
+`kubectl taint nodes --all node-role.kubernetes.io/master-`
 
-#然后使之生效
-$ sudo sysctl --system</code></pre>
-<h1 id="安装ingress"><a href="#安装ingress" class="headerlink" title="安装ingress"></a>安装ingress</h1><p>k8s中的服务如果想被外网访问，就需要用ingress做一个负载均衡<br><a href="https://github.com/kubernetes/ingress-nginx/blob/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml" target="_blank" rel="noopener">yaml文件</a></p>
-<h2 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h2><p>安装的时候由于只有一个node，ingress默认不往master上装，需要让master节点参与工作负载</p>
-<p><code>kubectl taint nodes --all node-role.kubernetes.io/master-</code></p>
-<p><del>此处使用NodePort + External IP的方式，需要修改该yaml文件中name为ingress-nginx-controller的service，添加externalIP</del><br>不能使用nodeport模式，否则ingress转发的X-Real-Ip是错的，会影响后续程序获取ip，使用hostname只需要设置hostNetwork: true</p>
-<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spec</span><span class="token punctuation">:</span>
-      <span class="token key atrule">hostNetwork</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-      <span class="token key atrule">dnsPolicy</span><span class="token punctuation">:</span> ClusterFirst
-      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
-        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> controller
-          <span class="token comment" spellcheck="true"># image: k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de</span>
-          <span class="token key atrule">image</span><span class="token punctuation">:</span> registry.cn<span class="token punctuation">-</span>hangzhou.aliyuncs.com/google_containers/nginx<span class="token punctuation">-</span>ingress<span class="token punctuation">-</span>controller<span class="token punctuation">:</span>v0.41.2
-          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPrese</code></pre>
+~~此处使用NodePort + External IP的方式，需要修改该yaml文件中name为ingress-nginx-controller的service，添加externalIP~~
+不能使用nodeport模式，否则ingress转发的X-Real-Ip是错的，会影响后续程序获取ip，使用hostname只需要设置hostNetwork: true
+```yaml
+spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirst
+      containers:
+        - name: controller
+          # image: k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de
+          image: registry.cn-hangzhou.aliyuncs.com/google_containers/nginx-ingress-controller:v0.41.2
+          imagePullPolicy: IfNotPrese</code></pre>
 <h1 id="部署mysql"><a href="#部署mysql" class="headerlink" title="部署mysql"></a>部署mysql</h1><h2 id="创建pv"><a href="#创建pv" class="headerlink" title="创建pv"></a>创建pv</h2><p>pv.yaml</p>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> PersistentVolume
