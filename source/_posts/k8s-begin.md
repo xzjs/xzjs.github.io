@@ -8,14 +8,28 @@ thumbnail: https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.c
 # 安装kubeadm
 [参考文档](https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 ## 坑
+
 1. 下载谷歌的apt-key下载不了，需要先自己翻墙下载下来，然后使用ftp传到服务器上，然后执行`sudo apt-key add ./apt-key.gpg` 进行安装，显示`OK`代表安装成功
 2. kubernetes.list中添加的镜像路径需要使用国内镜像，这里使用清华源镜像`deb https://mirrors.tuna.tsinghua.edu.cn/kubernetes/apt kubernetes-xenial main`
+
 # 创建集群
 使用了阿里云的镜像
 ```
 sudo kubeadm init --pod-network-cidr 172.16.0.0/16 \
     --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers
 ```
+
+## 坑
+```
+[WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+```
+编辑`/etc/docker/daemon.json`,添加`"exec-opts": ["native.cgroupdriver=systemd"],`,然后重启docker
+
+```
+[ERROR Swap]: running with swap on is not supported. Please disable swap
+```
+k8s需要关闭swap，永久关闭swap，编辑`/etc/fstab`,注释掉swap的一句即可
+
 上面的命令执行成功后，会输出一条和kubeadm join相关的命令，后面加入worker node的时候要使用。另外，给自己的非sudo的常规身份拷贝一个token，这样就可以执行kubectl命令了
 ```
 mkdir -p $HOME/.kube
