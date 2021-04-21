@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>使用ubuntu安装的，<code>sudo apt-get install vsftpd</code>,有些文章坑人名字都写错了</p>
+<h1 id="坑一-匿名用户默认路径在哪儿"><a href="#坑一-匿名用户默认路径在哪儿" class="headerlink" title="坑一 匿名用户默认路径在哪儿"></a>坑一 匿名用户默认路径在哪儿</h1><p>配置文件是<code>/etc/vsftpd.conf</code><br>但是你是看不到默认路径的，如果这个时候往ftp上传东西会报553错误，没有读写权限，踩了一下午坑，发现默认的路径在<code>/srv/ftp</code><br>但直接往这个文件夹里传东西是写不进去的，也不能将当前目录设置为大家都可访问，这个时候需要在目录里再创建一个文件夹<code>mkdir public</code><br>将当前文件夹设置为ftp所有<code>sudo chown ftp:ftp public</code><br>再将文件夹设置为777<code>sudo chmod -R 777 public</code><br>重启ftp<code>sudo service vsftped restart</code><br>这个时候匿名用户已经可以上传了，但是会发现下载不了，接着踩第二个坑</p>
+<h1 id="坑二-匿名用户无法下载"><a href="#坑二-匿名用户无法下载" class="headerlink" title="坑二 匿名用户无法下载"></a>坑二 匿名用户无法下载</h1><p>这个依然要改配置文件，但配置文件里没有，需要自己添加，在文件的末尾添加如下配置</p>
+<pre><code>anon_umask=022
+anon_other_write_enable=YES</code></pre>
+<p>加了这两句之后就可以下载和删除了，但之前测试时候上传的文件因为权限不对，还是没有办法下载的，需要把之前的测试文件删掉，重新上传，至此，一个简单的匿名FTP就搭建好了，方便开发人员共享一些东西</p>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
