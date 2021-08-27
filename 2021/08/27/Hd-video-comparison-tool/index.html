@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <p>做完了一个项目，想了想应该写点什么，不然项目就白做了，但仔细一想，又不知道该写什么，愁人，就想到啥写啥吧</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>广电搞了个算法，能将不清晰的视频变成高清视频，现在需要一个工具能对比生成前后的视频</p>
+<h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><h3 id="支持h265的视频播放器少之又少"><a href="#支持h265的视频播放器少之又少" class="headerlink" title="支持h265的视频播放器少之又少"></a>支持h265的视频播放器少之又少</h3><p>需要支持h265编码的视频，导致目前绝大多数的播放器无法使用，web版直接被抛弃。最后找到了一个老外开发的支持h265的库，<a href="https://github.com/ZeBobo5/Vlc.DotNet" target="_blank" rel="noopener">https://github.com/ZeBobo5/Vlc.DotNet</a>,只支持winform，对wpf的支持一团糟。没有办法，只能硬着头皮上了，但随着写着写着就发现这个库消耗惊人，cpu100%是常态了，就一边开发一边找还有没有更好的东西。偶然间发现，vs自带的播放器装一个支持h265的插件，就可以支持播放h265的视频了，又小巧消耗又小，真有一种众里寻他千百度，蓦然回首那人却在灯火阑珊处感觉，这个难点算是圆满解决了。</p>
+<h3 id="两个视频播放不同步"><a href="#两个视频播放不同步" class="headerlink" title="两个视频播放不同步"></a>两个视频播放不同步</h3><p>要想两个视频进行对比，那就必须得同步播放，否则对比个毛线。但开发时发现，总会有莫名其妙的原因导致两个视频无法同步播放。之前使用c#的媒体控制功能，从理论上讲会使两个视频同步播放，如果不同步就会让一个视频等待，直到两个视频都同步播放，但实操来看，完全是扯淡，遂放弃了。问了很多人，查了很多资料，最后也没有找到比较好的办法，只能是播放的时候检测如果两个视频当前的时间内不一样，就让它俩相等，但还是经常出问题，只能靠人工多次拖拽进度条，多矫正几次才能实现同步播放。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>代码由于合同版权的问题不能开源了，目前也只能想到这么多了，等啥时候想到更多或者后面有什么心得进展再来补充</p>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
