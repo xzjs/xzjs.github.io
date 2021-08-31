@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <p>昨天拿到一个用thinkphp开发的网站，需要跑起来看看效果，但苦于自己好久不开发PHP了，手里已经没有集成环境，便想着用docker搭一套环境，本以为可以信手拈来，没想到还踩了不少坑，也对之前一知半解的东西加深了一下理解，故在这里记录一下</p>
+<h2 id="准备镜像"><a href="#准备镜像" class="headerlink" title="准备镜像"></a>准备镜像</h2><p>这个没有多大问题，去<a href="hub.docker.com">hub.docker.com</a>找些官方的镜像就可以了，我这儿用到了nginx，php-fpm,mysql,获取命令放在这儿，方便大家直接使用</p>
+<p><code>docker pull nginx</code></p>
+<p><code>docker pull bitnami/php-fpm</code></p>
+<p><code>docker pull mysql</code></p>
+<h2 id="编写docker-compose-yml"><a href="#编写docker-compose-yml" class="headerlink" title="编写docker-compose.yml"></a>编写docker-compose.yml</h2><pre class=" language-yml"><code class="language-yml">version: "3"
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf ##配置文件位置映射
+      - .:/usr/share/nginx/html     ##网页文件位置映射
+    depends_on:
+      - php
+  php:
+    image: bitnami/php-fpm
+    volumes:
+      - .:/app ##网页文件位置映射
+    depends_on:
+      - mysql
+    links: 
+      - mysql
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: EisBzdye6adiJHHj ##数据库用户密码
+      MYSQL_DATABASE: www_ammopic_com
+      MYSQL_USER: www_ammopic_com
+    ports: 
+      - 3306:3306
+    volumes:
+      - ./www_ammopic_com.sql:/docker-entrypoint-initdb.d/db.sql</code></pre>
+<h3 id="问题1：依赖启动"><a href="#问题1：依赖启动" class="headerlink" title="问题1：依赖启动"></a>问题1：依赖启动</h3><p>nginx依赖于php-fpm,php-fpm又依赖于mysql，depends_on很好的解决了这个问题</p>
+<h3 id="问题2：mysql自动填充创建数据库以及填充数据"><a href="#问题2：mysql自动填充创建数据库以及填充数据" class="headerlink" title="问题2：mysql自动填充创建数据库以及填充数据"></a>问题2：mysql自动填充创建数据库以及填充数据</h3><p>虽然可以把mysql先运行起来，然后把sql文件拷贝进去，然后进入容器执行导入脚本，但总觉得这样操作很low，都想好了要做一条命令启动一个环境了，如果还有这么多操作就违背初衷了。<br>查了一下，mysql有个机制，可以从<code>/docker-entrypoint-initdb.d/</code>这个路径下检查sql文件，sh脚本等，从而实现自动导入数据的功能，非常好用，完美的解决了这个问题</p>
+<h3 id="问题3：各容器之间如何通信，统一端口映射到主机非常不优雅"><a href="#问题3：各容器之间如何通信，统一端口映射到主机非常不优雅" class="headerlink" title="问题3：各容器之间如何通信，统一端口映射到主机非常不优雅"></a>问题3：各容器之间如何通信，统一端口映射到主机非常不优雅</h3><p>之前操作的时候因为经常开发，所以像nginx，mysql这些都是把端口直接映射到主机的，这样方便了开发，但又违背了初衷。所幸links完美的解决了这个问题，这样在代码里连接mysql，在nginx里连接php-fpm都很方便了，而且不会对外暴露，非常好用</p>
+<h2 id="编写nginx配置文件"><a href="#编写nginx配置文件" class="headerlink" title="编写nginx配置文件"></a>编写nginx配置文件</h2><pre class=" language-nginx"><code class="language-nginx"><span class="token keyword">server</span> <span class="token punctuation">{</span>
+    <span class="token keyword">listen</span>       <span class="token number">80</span><span class="token punctuation">;</span>
+    <span class="token keyword">listen</span>  <span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token number">80</span><span class="token punctuation">;</span>
+    <span class="token keyword">server_name</span>  localhost<span class="token punctuation">;</span>
+    <span class="token keyword">root</span>   <span class="token operator">/</span>usr<span class="token operator">/</span>share<span class="token operator">/</span>nginx<span class="token operator">/</span>html<span class="token operator">/</span>public<span class="token punctuation">;</span>
+
+    <span class="token keyword">location</span> <span class="token operator">/</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token operator">-</span>e <span class="token variable">$request_filename</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">rewrite</span>  <span class="token operator">^</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token operator">*</span><span class="token punctuation">)</span>$  <span class="token operator">/</span><span class="token keyword">index</span><span class="token punctuation">.</span>php<span class="token operator">?</span>s<span class="token operator">=</span>$<span class="token number">1</span>  last<span class="token punctuation">;</span>   <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">index</span>  <span class="token keyword">index</span><span class="token punctuation">.</span>html <span class="token keyword">index</span><span class="token punctuation">.</span>php <span class="token keyword">index</span><span class="token punctuation">.</span>htm<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">error_page</span>   <span class="token number">500</span> <span class="token number">502</span> <span class="token number">503</span> <span class="token number">504</span>  <span class="token operator">/</span>50x<span class="token punctuation">.</span>html<span class="token punctuation">;</span>
+    <span class="token keyword">location</span> <span class="token operator">=</span> <span class="token operator">/</span>50x<span class="token punctuation">.</span>html <span class="token punctuation">{</span>
+        <span class="token keyword">root</span>   <span class="token operator">/</span>usr<span class="token operator">/</span>share<span class="token operator">/</span>nginx<span class="token operator">/</span>html<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">location</span> <span class="token operator">~</span> \<span class="token punctuation">.</span>php$ <span class="token punctuation">{</span>
+        <span class="token keyword">root</span>           <span class="token operator">/</span>app<span class="token operator">/</span>public<span class="token punctuation">;</span>
+        <span class="token keyword">fastcgi_pass</span>   php<span class="token punctuation">:</span><span class="token number">9000</span><span class="token punctuation">;</span>
+        <span class="token keyword">fastcgi_index</span>  <span class="token keyword">index</span><span class="token punctuation">.</span>php<span class="token punctuation">;</span>
+        <span class="token keyword">fastcgi_param</span>  SCRIPT_FILENAME  <span class="token variable">$document_root</span><span class="token variable">$fastcgi_script_name</span><span class="token punctuation">;</span>
+        <span class="token keyword">include</span>        fastcgi_params<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这种写了不知道多少遍的配置文件，居然也出现了翻船的时候，正应了那句话，拳不离手曲不离口。</p>
+<h3 id="问题1：root目录"><a href="#问题1：root目录" class="headerlink" title="问题1：root目录"></a>问题1：root目录</h3><p>thinkphp和laravel一样，是需要将根目录映射到public目录的，这该死的记性</p>
+<h3 id="问题2：连接到php-fpm应该如何写"><a href="#问题2：连接到php-fpm应该如何写" class="headerlink" title="问题2：连接到php-fpm应该如何写"></a>问题2：连接到php-fpm应该如何写</h3><p>以前写配置的时候nginx和php-fpm都是在同一台机器上，所以代码位置也放在了一起，这一次代码分别在nginx容器和php-fpm容器里，一时还写不对了。最后测试发现，在连接php-fpm的配置里，需要写的文件位置是php-fpm容器里的代码路径，如上述文件的<code>/app/public</code></p>
+<h2 id="最后执行"><a href="#最后执行" class="headerlink" title="最后执行"></a>最后执行</h2><p><code>docker compose up</code>,镜像没有问题，但网站依旧访问不了，究其原因，是因为奇葩的开发者写的奇葩的逻辑，与本文想讲的技术无关了，但依然忍不住想在这里吐槽，这种不靠谱的程序员什么时候能少一点……</p>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
