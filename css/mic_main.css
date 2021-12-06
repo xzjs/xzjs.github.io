@@ -418,6 +418,7 @@
 	}
 
 	p {
+		text-indent: 25px;
 		text-align: justify;
 		margin: 0 0 2rem 0;
 	}
