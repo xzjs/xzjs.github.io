@@ -3,7 +3,7 @@ title: 2021年终总结
 date: 2021-12-06 15:34:33
 tags: 年终
 categories: 随笔
-thumbnail:
+thumbnail: https://tva4.sinaimg.cn/large/9f8a45fbly1gx49mmqgxwj20jg0jg41a.jpg
 ---
 ## 开篇碎碎念
 转眼间2021年都要结束了，打开IDE想写一点年终总结的东西，却看到了写到一半的2020年年终总结，不禁感叹，我这一年都干了些啥啊。
