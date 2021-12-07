@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近做勇泰商城项目，用了之前没用过的react和ant-design，其余部分大同小异，结果要在表单里上传图片缺犯了难，网上找了一圈也没有找到靠谱的解决方案，遂在这里记录一番</p>
+<h2 id="动手"><a href="#动手" class="headerlink" title="动手"></a>动手</h2><h4 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h4><p>先来一个form组件，然后再form的item里加入upload组件</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Form</span> <span class="token attr-name">onFinish</span><span class="token attr-value"><span class="token punctuation">=</span>{onFinish}</span> <span class="token attr-name">form</span><span class="token attr-value"><span class="token punctuation">=</span>{form}</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Form.Item</span>
+    <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>商品图片<span class="token punctuation">"</span></span>
+    <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img<span class="token punctuation">"</span></span>
+    <span class="token attr-name">valuePropName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img<span class="token punctuation">"</span></span>
+    <span class="token attr-name">getValueFromEvent</span><span class="token attr-value"><span class="token punctuation">=</span>{normFile}</span>
+    <span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Upload</span>
+        <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span>
+        <span class="token attr-name">listType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>picture-card<span class="token punctuation">"</span></span>
+        <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>avatar-uploader<span class="token punctuation">"</span></span>
+        <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://upload.qiniup.com<span class="token punctuation">"</span></span>
+        <span class="token attr-name">showUploadList</span><span class="token attr-value"><span class="token punctuation">=</span>{false}</span>
+        <span class="token attr-name">data</span><span class="token attr-value"><span class="token punctuation">=</span>{getToken}</span>
+        <span class="token attr-name">onChange</span><span class="token attr-value"><span class="token punctuation">=</span>{handleChange}</span>
+    <span class="token punctuation">></span></span>
+        {form.getFieldValue("img") ? (
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img<span class="token punctuation">"</span></span>  <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span>{baseURL</span> <span class="token attr-name">+</span> <span class="token attr-name">form.getFieldValue("img")}</span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        ) : (
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation">=</span>{{</span> <span class="token attr-name"><span class="token namespace">marginTop:</span></span> <span class="token attr-name">8</span> <span class="token attr-name">}}</span><span class="token punctuation">></span></span>Upload<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        )}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Upload</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Form.Item</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Form.Item</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Space</span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>middle<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>primary<span class="token punctuation">"</span></span> <span class="token attr-name">htmlType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        提交
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span>
+        &lt;Button
+        onClick={() => {
+            form.resetFields();
+            setVisible(false);
+        }}
+        >
+        取消
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Space</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Form.Item</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Form</span><span class="token punctuation">></span></span></code></pre>
+<p>使用form组件的关联属性form，组件渲染时使用<code>form.getFieldValue(&quot;img&quot;)</code>检测form中是否有相关的值,此时存储的值并不是像往常那样的图片本地地址，而是上传后的图片hash值，若有值，就拼接baserUrl展示图片</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img<span class="token punctuation">"</span></span>  <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span>{baseURL</span> <span class="token attr-name">+</span> <span class="token attr-name">form.getFieldValue("img")}</span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+<p>如果没有值的话就显示上传按钮</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation">=</span>{{</span> <span class="token attr-name"><span class="token namespace">marginTop:</span></span> <span class="token attr-name">8</span> <span class="token attr-name">}}</span><span class="token punctuation">></span></span>Upload<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+<h4 id="图片上传完后如何将值回填到form表单中"><a href="#图片上传完后如何将值回填到form表单中" class="headerlink" title="图片上传完后如何将值回填到form表单中"></a>图片上传完后如何将值回填到form表单中</h4><p>这就需要用到<code>Form.Item</code>的属性<code>getValueFromEvent</code>,官方文档给的描述是“设置如何将 event 的值转换成字段值”，说实话，看了好几遍，没明白，还好找到了一段示例代码，最后勉强明白，应该是会捕捉内部元素触发的回调，内部的upload组件文件状态改变时会有一个回调，参见<a href="https://ant.design/components/upload-cn/#onChange" target="_blank" rel="noopener">onChange</a>。Form.Item捕捉到这个回调，我们就可以在里面搞些事情拿到上传后的hash值了，如代码中的<code>getValueFromEvent={normFile}</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> normFile <span class="token operator">=</span> <span class="token punctuation">(</span>info<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>info<span class="token punctuation">.</span>file<span class="token punctuation">.</span>status <span class="token operator">==</span> <span class="token string">"done"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> info<span class="token punctuation">.</span>file<span class="token punctuation">.</span>response<span class="token punctuation">.</span>key<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>上述代码种增加了一步<code>info.file.status==&quot;done&quot;</code>的判断，因为拿到的事件是文件状态改变的回调，所以只有最后上传完成的一次回调中会带有返回的hash值。</p>
+<h4 id="修改数据如何将hash值又转换成图片显示出来"><a href="#修改数据如何将hash值又转换成图片显示出来" class="headerlink" title="修改数据如何将hash值又转换成图片显示出来"></a>修改数据如何将hash值又转换成图片显示出来</h4><p>做CURD的都知道，一个表单一般创建和更新共用，刚才解决了创建的问题。其实更新的问题在上文中已经说过了，其实就是使用<code>form.getFieldValue(&quot;img&quot;)</code>，很简单，问题迎刃而解。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>之所以遇到这个问题其实是对新技术的不熟悉，等熟悉了之后也觉得这个问题没什么了。程序开发人员写的文档往往如此，自己心理跟明镜似的，所以文档写的非常简单，但不熟悉的人来看文档的话，就非常吃力了，要铭记此事，常自省也。</p>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
