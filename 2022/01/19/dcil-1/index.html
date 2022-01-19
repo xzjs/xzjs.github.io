@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <p>众所周知，在北京开车是一件非常痛苦的事，一方面是因为堵，一方面是因为司机不讲公德。奉公守法的我每天不是在被加塞，就是在被加塞的路上，苦啊！鉴于此，我决定写个小项目，记录下那些加塞我的豪横司机，记在小本本上，然后画圈圈诅咒他们。</p>
+<h2 id="说干就干，先说思路"><a href="#说干就干，先说思路" class="headerlink" title="说干就干，先说思路"></a>说干就干，先说思路</h2><p>我手里有很多行车记录仪拍摄的视频，里面一桩桩一件件记录着被各种豪车加塞的场面，把视频做一个检测与追踪，再判断它们的轨迹，当车辆的位置超过我的车的中轴线，我就认为它加塞我加塞成功了，我已经被气的骂娘了，如下图所示<br><img src="https://tva2.sinaimg.cn/large/9f8a45fbly1gyj4b2hwh1j20ui083aan.jpg" alt="加塞图"></p>
+<h2 id="图像检测，还得YOLO"><a href="#图像检测，还得YOLO" class="headerlink" title="图像检测，还得YOLO"></a>图像检测，还得YOLO</h2><p>车辆的检测，我决定选用yolo来做（因为我只知道这一种），官方网站<a href="https://ultralytics.com/" target="_blank" rel="noopener">https://ultralytics.com/</a>,现在已经到v5了，这玩意当真是非常好用，能识别很多种物体，检测个小汽车自然不在话下</p>
+<h2 id="图像追踪，deepsort"><a href="#图像追踪，deepsort" class="headerlink" title="图像追踪，deepsort"></a>图像追踪，deepsort</h2><p>至于检测后的图像追踪，就没有相关的经验了，请教了相关的专家，给我推荐了deepsort，然而这个算法就没有yolo那么友好，没有官网，没有文档，怎么用也不知道，全看悟性，我在github上找了一个有人集成了yolo和deepsort的项目<a href="https://github.com/Sharpiless/Yolov5-Deepsort" target="_blank" rel="noopener">https://github.com/Sharpiless/Yolov5-Deepsort</a>，作者小哥使用说明写的很简陋，代码也有一些bug，但修了一下勉强能用</p>
+<h2 id="修改bug"><a href="#修改bug" class="headerlink" title="修改bug"></a>修改bug</h2><p>运行demo的时候弹出了报错<code>TypeError: load() missing 1 required positional argument: &#39;Loader&#39;</code>,只需要将引用load处修改为<code>self.update(float(fo.read(),Loader=yaml.SafeLoader))</code>，添加缺少的参数即可<br>由于我是在mac环境下，pytorch不支持GPU，只支持CPU，故无法使用half，需要将代码中的所有half改为float，才可使用</p>
+<h2 id="运行demo"><a href="#运行demo" class="headerlink" title="运行demo"></a>运行demo</h2><p>经过了漫长的pip install和改bug之后，终于将demo跑起来了，展示一下跑出来的效果<br><img src="https://tva3.sinaimg.cn/large/9f8a45fbly1gyj2x7y3t1j21do0rk7r1.jpg" alt="demo效果图"></p>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><p>接下来就要开始自己读代码搓代码了，等着看我的加塞检测算法吧，哈哈哈</p>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
