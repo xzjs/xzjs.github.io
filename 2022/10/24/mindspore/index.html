@@ -65,25 +65,24 @@
 	
 <meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
     
-		<body class="is-loading">
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
     <!-- Wrapper 外包 s-->
-    <div id="wrapper" class="fade-in overlay">
+    <div id="wrapper" class="fade-in">
         <!-- Intro 头部显示 s -->
-                <div id="intro">
-            <h1>
-                        君应有语 </h1>
-            <p> 渺万里层云，千山暮雪，只影向谁去？
-            </p>
-            <ul class="actions">
-                <li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
-            </ul>
-        </div>
         <!-- Intro 头部显示 e -->
         <!-- Header 头部logo start -->
         <header id="header">
     <a href="/" class="logo">血之君殇</a>
 </header>
-        <!-- Header 头部logo end -->
         <!-- Nav 导航条 start -->
         <nav id="nav" class="special" >
             <ul class="menu links" >
@@ -118,66 +117,28 @@
                     
 			</ul>
 </nav>
-        <!-- Nav 导航条 end -->
-        <!-- Main 主要部分 start -->
-        
-        <!-- 文章列表   s -->
-        <div id="main" style="background-color: transparent; padding:0;">
-        <section class="link_container" style="margin-top: 0; background-color: transparent; ">
-            <div class="link_row">
-                <!-- 文章sample  s-->
 
-                
-                <div class="6u 12u(narrower)">
-                    <section class="link_box special">
-                       <a href="/2022/01/19/dcil-1/">
-                        <div class="page_title" style="background-image: url(https://tva3.sinaimg.cn/large/9f8a45fbly1gyj2x7y3t1j21do0rk7r1.jpg);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;">
-                            <!--标题-->
-                            <h2 class="page_title_text"> 鉴于开车老被加塞，我做了一个加塞复盘系统（1） </h2>
-                            <!--段落-->
-                        </div>
-                        </a>
-                        <div class="home-post-info">
-                            <!-- Author Avatar -->
-                            <div class="home-post-info-author-avatar">
-                                <h6><span class="home-post-info-data">2022-01-19</span></h6>
-                                <div class="home-post-info-Category">
-                                    <!-- Category -->
-                                    <span>
-                            <h6>
-                            <a class="post_category-link" href="http://localhost:4000/categories/Algorithm/" target="_blank" rel="noopener">
-                                <a class="post_category-link" href="/categories/AI/">AI</a></a>
-                            </h6>
-                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- 文章sample  e-->
-            
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <p>老美亡我之心不死，卡完这个卡那个，现在又开始卡GPU了，AI国产化迫在眉睫，勃，三尺微命，一介书生，奉命来蹚出一条国产化道路。</p>
+<h2 id="安装MindSpore"><a href="#安装MindSpore" class="headerlink" title="安装MindSpore"></a>安装MindSpore</h2><p>华为给了一份安装文档<a href="https://gitee.com/mindspore/docs/blob/r1.9/install/mindspore_ascend_install_pip.md" target="_blank" rel="noopener">pip方式安装MindSpore Ascend 910版本</a>,基本是照着操作的，但错误百出，国内公司在文档这块儿还是不行，即使是华为也不例外，哎，一路磕磕绊绊往下走吧。</p>
+<h3 id="安装开发套件包"><a href="#安装开发套件包" class="headerlink" title="安装开发套件包"></a>安装开发套件包</h3><p>找了半天的文档<a href="https://www.hiascend.com/document/detail/zh/canncommercial/51RC2/envdeployment/instg/instg_000064.html" target="_blank" rel="noopener">安装开发套件包</a></p>
+<h3 id="报错-Device-0-call-rtSetDevice-failed-ret-507000"><a href="#报错-Device-0-call-rtSetDevice-failed-ret-507000" class="headerlink" title="报错 Device 0 call rtSetDevice failed, ret[507000]"></a>报错 Device 0 call rtSetDevice failed, ret[507000]</h3><p>检查了一下npu，发现npu也报错了，等华为工程师看看吧<br><img src="https://tvax3.sinaimg.cn/large/9f8a45fbgy1h7gh0m5dzsj20ji02y3yz.jpg" alt="WechatIMG47"></p>
+
             </div>
-        </section>
-        </div>
-        <!-- 文章列表   end -->
-        <!-- Main 主要部分 end -->
-        <!-- footer  页码 start-->
-        <footer style="text-align: center; padding-top: 2em;">
-  
-</footer>
 
-        <!-- footer  页码 end-->
+        </div>
         <!-- Copyright 版权 start -->
                 <div id="copyright">
             
                 <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
 			
         </div>
-        <!-- Copyright 版权 end -->
     </div>
-    <!-- Wrapper 外包 e-->
-    <!-- Scripts -->
 </body>
+
+
 
  	
 </html>
