@@ -5,6 +5,7 @@ tags: Raspberry
 categories: 实战
 thumbnail: https://img0.baidu.com/it/u=3350889853,2756525951&fm=253&fmt=auto&app=138&f=JPEG?w=900&h=450
 ---
+# 基于树莓派的低延时
 ## 方案一
 ![方案图](https://tvax2.sinaimg.cn/large/9f8a45fbgy1h8dp9zn33oj20ms0d7gm5.jpg)
 ### 具体步骤
