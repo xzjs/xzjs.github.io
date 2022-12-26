@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>后端数据格式定义</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">type</span> Plan <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    gorm<span class="token punctuation">.</span>Model
+    UserID    <span class="token builtin">uint</span>      <span class="token string">`json:"-"`</span>
+    CardID    <span class="token builtin">uint</span>      <span class="token string">`json:"card_id"`</span>
+    Sum       <span class="token builtin">int</span>       <span class="token string">`json:"sum"`</span> <span class="token comment" spellcheck="true">//总金额</span>
+    CycleID   <span class="token builtin">uint</span>      <span class="token string">`json:"cycle_id"`</span>
+    Total     <span class="token builtin">int</span>       <span class="token string">`json:"total"`</span> <span class="token comment" spellcheck="true">//总次数</span>
+    Frequency <span class="token builtin">int</span>       <span class="token string">`json:"frequency"`</span>
+    Floor     <span class="token builtin">int</span>       <span class="token string">`json:"floor"`</span> <span class="token comment" spellcheck="true">//下限</span>
+    Ways      <span class="token punctuation">[</span><span class="token punctuation">]</span>Way     <span class="token string">`json:"way_id" gorm:"many2many:plan_ways;"`</span>
+    Start     time<span class="token punctuation">.</span>Time <span class="token string">`json:"start"`</span>
+    End       time<span class="token punctuation">.</span>Time <span class="token string">`json:"end"`</span>
+<span class="token punctuation">}</span></code></pre>
+<p>前端传入数据</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"card_id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"sum"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"cycle_id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token property">"total"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"frequency"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    <span class="token property">"floor"</span><span class="token operator">:</span> <span class="token number">99</span><span class="token punctuation">,</span>
+    <span class="token property">"ways"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span><span class="token property">"ID"</span><span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span><span class="token property">"ID"</span><span class="token operator">:</span><span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span><span class="token property">"ID"</span><span class="token operator">:</span><span class="token number">3</span><span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"2022-01-01 00:00:00"</span><span class="token punctuation">,</span>
+    <span class="token property">"end"</span><span class="token operator">:</span> <span class="token string">"2023-01-01 00:00:00"</span>
+<span class="token punctuation">}</span></code></pre>
+<p>报错</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"Layout"</span><span class="token operator">:</span> <span class="token string">"\"2006-01-02T15:04:05Z07:00\""</span><span class="token punctuation">,</span>
+    <span class="token property">"Value"</span><span class="token operator">:</span> <span class="token string">"\"2022-01-01 00:00:00\""</span><span class="token punctuation">,</span>
+    <span class="token property">"LayoutElem"</span><span class="token operator">:</span> <span class="token string">"T"</span><span class="token punctuation">,</span>
+    <span class="token property">"ValueElem"</span><span class="token operator">:</span> <span class="token string">" 00:00:00\""</span><span class="token punctuation">,</span>
+    <span class="token property">"Message"</span><span class="token operator">:</span> <span class="token string">""</span>
+<span class="token punctuation">}</span></code></pre>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>go 中使用 json.Unmarshal 转换结构体时，若结构体中有时间类型作为解析字段时，使用的是国际标准 RFC3339 （2006-01-02T15:04:05Z07:00） 格式来作为默认格式进行解析的。<br>算是一个常识性问题，将传入的时间字符串改为RFC3339格式即可</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"card_id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"sum"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"cycle_id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token property">"total"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"frequency"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    <span class="token property">"floor"</span><span class="token operator">:</span> <span class="token number">99</span><span class="token punctuation">,</span>
+    <span class="token property">"ways"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span><span class="token property">"ID"</span><span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span><span class="token property">"ID"</span><span class="token operator">:</span><span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span><span class="token property">"ID"</span><span class="token operator">:</span><span class="token number">3</span><span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"2022-01-01T00:00:00Z"</span><span class="token punctuation">,</span>
+    <span class="token property">"end"</span><span class="token operator">:</span> <span class="token string">"2023-01-01T00:00:00Z"</span>
+<span class="token punctuation">}</span></code></pre>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
