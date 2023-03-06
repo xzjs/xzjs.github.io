@@ -7,6 +7,16 @@ thumbnail: https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.c
 ---
 # 安装kubeadm
 [参考文档](https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+## 阿里云镜像源配置
+```
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-aarch64
+enabled=1
+gpgcheck=0
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+```
 ## 坑
 
 1. 下载谷歌的apt-key下载不了，需要先自己翻墙下载下来，然后使用ftp传到服务器上，然后执行`sudo apt-key add ./apt-key.gpg` 进行安装，显示`OK`代表安装成功
