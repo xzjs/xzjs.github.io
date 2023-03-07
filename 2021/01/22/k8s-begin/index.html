@@ -122,6 +122,13 @@
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
                 <h1 id="安装kubeadm"><a href="#安装kubeadm" class="headerlink" title="安装kubeadm"></a>安装kubeadm</h1><p><a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/" target="_blank" rel="noopener">参考文档</a></p>
+<h2 id="阿里云镜像源配置"><a href="#阿里云镜像源配置" class="headerlink" title="阿里云镜像源配置"></a>阿里云镜像源配置</h2><pre><code>[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-aarch64
+enabled=1
+gpgcheck=0
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl</code></pre>
 <h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><ol>
 <li>下载谷歌的apt-key下载不了，需要先自己翻墙下载下来，然后使用ftp传到服务器上，然后执行<code>sudo apt-key add ./apt-key.gpg</code> 进行安装，显示<code>OK</code>代表安装成功</li>
 <li>kubernetes.list中添加的镜像路径需要使用国内镜像，这里使用清华源镜像<code>deb https://mirrors.tuna.tsinghua.edu.cn/kubernetes/apt kubernetes-xenial main</code></li>

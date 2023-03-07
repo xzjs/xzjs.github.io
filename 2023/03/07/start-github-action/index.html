@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="github-action-初体验"><a href="#github-action-初体验" class="headerlink" title="github action 初体验"></a>github action 初体验</h1><p>之前一直用的很开心的Travis CI不免费了，我这种程序员贫农又得去到处乞讨了，这次找到了大户微软家的github，希望能稳定一段时间的饭碗</p>
+<h2 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h2><ol>
+<li><p>创建一个名为.github的文件夹</p>
+</li>
+<li><p>在.github下创建workflows文件夹</p>
+</li>
+<li><p>在workflows文件夹下创建deploy.yml，用来部署我们的博客</p>
+</li>
+<li><p>在deploy.yml里写下我们的部署代码</p>
+<pre class=" language-shell"><code class="language-shell">name: Deploy
+
+on: [push]
+
+jobs:
+build:
+    runs-on: ubuntu-latest
+    name: A job to deploy blog.
+    steps:
+    - name: Checkout
+    uses: actions/checkout@v1
+    with:
+        submodules: true # Checkout private submodules(themes or something else).
+
+    # Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)
+    - name: Cache node modules
+    uses: actions/cache@v1
+    id: cache
+    with:
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+        ${{ runner.os }}-node-
+    - name: Install Dependencies
+    if: steps.cache.outputs.cache-hit != 'true'
+    run: npm ci
+
+    # Deploy hexo blog website.
+    - name: Deploy
+    id: deploy
+    uses: sma11black/hexo-action@v1.0.3
+    with:
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        user_name: xzjs  # (or delete this input setting to use bot account)
+        user_email: xuezhijunshang@icloud.com  # (or delete this input setting to use bot account)
+        commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)
+    # Use the output from the `deploy` step(use for test action)
+    - name: Get the output
+    run: |
+        echo "${{ steps.deploy.outputs.notify }}"</code></pre>
+<p> 代码是抄的hexo提供的部署脚本</p>
+</li>
+<li><p>推送，坐等结果</p>
+<h2 id="报错了"><a href="#报错了" class="headerlink" title="报错了"></a>报错了</h2><p><img src="https://image.baidu.com/search/down?url=http://tvax2.sinaimg.cn/large/9f8a45fbgy1hbr4gwzz4oj213407j0v5.jpg" alt="Screen Shot 2023-03-07 at 11.10.51"><br>因为在themes下有个不用的主题文件夹，导致没有下载到对应的子模块，删除继续<br><img src="https://image.baidu.com/search/down?url=http://tvax3.sinaimg.cn/large/9f8a45fbgy1hbr5gxa78kj21fz07k78n.jpg" alt="Screen Shot 2023-03-07 at 11.47.39"><br>又来一个提醒，还是没有部署成功</p>
+</li>
+</ol>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>

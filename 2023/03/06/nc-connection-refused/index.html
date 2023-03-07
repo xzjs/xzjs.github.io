@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="nc测试本地端口一直拒绝"><a href="#nc测试本地端口一直拒绝" class="headerlink" title="nc测试本地端口一直拒绝"></a>nc测试本地端口一直拒绝</h1><h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>混淆了nc/netcat/ncat之间的关系，且系统将nc/netcat默认指向了ncat，导致使用命令nc，其实使用的是ncat</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ol>
+<li><p>yum没有netcat，使用nc安装的是ncat，不要被外面的文章骗了，建议使用源码安装</p>
+</li>
+<li><p>下载netcat <code>wget https://gigenet.dl.sourceforge.net/project/netcat/netcat/0.7.1/netcat-0.7.1.tar.gz</code></p>
+</li>
+<li><p>解压 <code>tar -zxvf netcat-0.7.1.tar.gz -C /usr/local/</code></p>
+</li>
+<li><p>改名</p>
+<pre><code>cd /usr/local
+mv netcat-0.7.1 netcat</code></pre>
+</li>
+<li><p>安装<br> 切换目录：<code>cd /usr/local/netcat</code><br> 配置，把文件存放在/opt/netcat下，删除时，卸载软件时，只要删除这个文件就行了：<br> <code>./configure --prefix=/opt/netcat</code><br> 编译：<code>make</code><br> 安装：<code>make install</code></p>
+<blockquote>
+<p>由于我的系统比较特殊，此处有一个报错<code>configure: error: cannot guess build type; you must specify one</code><br> 解决办法<br> 1.在系统/usr路径下搜索 config.guess 和 config.sub 这两个文件。<br> 2.在当前编译工具目录下同样搜索 config.guess 和 config.sub 这两个文件。<br> 3.用系统的 config.guess 和 config.sub 文件替换当前编译工具目录下的这两个文件。<br> 4.重新执行configure。</p>
+</blockquote>
+</li>
+<li><p>配置<br> <code>vim /etc/profile</code><br> 添加以下内容：</p>
+<pre><code># set  netcat path
+
+export NETCAT_HOME=/opt/netcat
+
+export PATH=$PATH:$NETCAT_HOME/bin</code></pre>
+<p> 保存，退出，并使配置生效：<br> <code>source /etc/profile</code></p>
+</li>
+<li><p>删除原先的链接，重建</p>
+<pre><code>rm /usr/bin/nc
+
+ln -s /opt/netcat/bin/nc /usr/bin/nc</code></pre>
+</li>
+<li><p>验证<br> <code>nc 127.0.0.1 6443</code></p>
+</li>
+</ol>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
