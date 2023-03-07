@@ -3,7 +3,7 @@ title: 微博图床也炸了
 date: 2023-03-07 11:15:34
 tags: 微博 图床 反盗链
 categories: 实战
-thumbnail:
+thumbnail: https://p7.itc.cn/images01/20211206/3a91e138b9b6431797f5cd157eac952e.jpeg
 ---
 # 微博图床也炸了
 一波未平，一波又起，正在写怎么使用github action的文章，打算贴个图，结果发现我的微博图床403了，整个23年简直是IT界的世界末日啊
