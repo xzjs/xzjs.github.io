@@ -45,7 +45,7 @@ thumbnail: https://img-blog.csdnimg.cn/img_convert/85087db091a35e54313ea9a41a321
     保存，退出，并使配置生效：
     `source /etc/profile`
 
-7. 检验删除原先的链接，重建
+7. 删除原先的链接，重建
     ```
     rm /usr/bin/nc
 
