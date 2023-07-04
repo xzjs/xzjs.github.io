@@ -134,9 +134,10 @@ exclude=kubelet kubeadm kubectl</code></pre>
 <li>kubernetes.list中添加的镜像路径需要使用国内镜像，这里使用清华源镜像<code>deb https://mirrors.tuna.tsinghua.edu.cn/kubernetes/apt kubernetes-xenial main</code></li>
 </ol>
 <h1 id="创建集群"><a href="#创建集群" class="headerlink" title="创建集群"></a>创建集群</h1><p>使用了阿里云的镜像</p>
-<pre><code>sudo kubeadm init --pod-network-cidr 172.16.0.0/16 \
-    --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</code></pre>
-<h2 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h2><pre><code>[WARNING IsDockerSystemdCheck]: detected &quot;cgroupfs&quot; as the Docker cgroup driver. The recommended driver is &quot;systemd&quot;. Please follow the guide at https://kubernetes.io/docs/setup/cri/</code></pre>
+<pre><code>sudo kubeadm init --pod-network-cidr 172.16.0.0/16 --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers</code></pre>
+<h2 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h2><ol>
+<li><p>systemd</p>
+<pre><code>[WARNING IsDockerSystemdCheck]: detected &quot;cgroupfs&quot; as the Docker cgroup driver. The recommended driver is &quot;systemd&quot;. Please follow the guide at https://kubernetes.io/docs/setup/cri/</code></pre>
 <p>编辑<code>/etc/docker/daemon.json</code>,添加<code>&quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],</code>,然后重启docker</p>
 <pre><code>[ERROR Swap]: running with swap on is not supported. Please disable swap</code></pre>
 <p>k8s需要关闭swap，永久关闭swap，编辑<code>/etc/fstab</code>,注释掉swap的一句即可</p>
@@ -144,6 +145,14 @@ exclude=kubelet kubeadm kubectl</code></pre>
 <pre><code>mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
+</li>
+<li><p>镜像拉取不下来<br><code>kubeadm config images pull --image-repository registry.aliyuncs.com/google_containers</code><br>使用指定仓库去拉取</p>
+</li>
+<li><p>需要的沙盒容器是3.6<br><a href="https://kubernetes.io/zh-cn/docs/setup/production-environment/container-runtimes/#override-pause-image-containerd" target="_blank" rel="noopener">重载沙盒镜像</a><br>在里面替换成现有的3.9</p>
+</li>
+<li><p>failed to ensure lease exists</p>
+</li>
+</ol>
 <h1 id="安装calico插件"><a href="#安装calico插件" class="headerlink" title="安装calico插件"></a>安装calico插件</h1><p><a href="https://docs.projectcalico.org/v3.11/manifests/calico.yaml" target="_blank" rel="noopener">yaml文件</a><br>修改里面的CALICO_IPV4POOL_CIDR的值来避免和宿主机所在的局域网段冲突（把原始的192.168.0.0/16 修改成了172.16.0.0/16)<br><code>kubectl apply -f calico.yaml</code></p>
 <h2 id="坑-2"><a href="#坑-2" class="headerlink" title="坑"></a>坑</h2><p>这儿踩了个大坑，一直有一个node在running，但是没有ready，导致我后面pod之间互相无法访问，查了一下日志发现有一个fatal</p>
 <pre><code>int_dataplane.go 1035: Kernel&#39;s RPF check is set to &#39;loose&#39;.  \

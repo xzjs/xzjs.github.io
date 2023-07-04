@@ -121,15 +121,18 @@
         <div id="main" >
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <h1 id="kubeflow初体验"><a href="#kubeflow初体验" class="headerlink" title="kubeflow初体验"></a>kubeflow初体验</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="配置StorageClass"><a href="#配置StorageClass" class="headerlink" title="配置StorageClass"></a>配置StorageClass</h3><p>sc.yaml</p>
-<pre><code>apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: standard
-provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: WaitForFirstConsumer</code></pre>
-<p>执行<code>kubectl -f sc.yaml</code><br>执行<code>kubectl patch storageclass standard -p &#39;{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}&#39;</code>将刚创建的sc设置为默认sc</p>
-<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3>
+                <p>今天看到一个使用异或交换的两个数的非常巧妙的方式，值得记录一下<br>假设要交换两个数a和b，可以如下这么写</p>
+<pre><code>a = a ^ b
+b = a ^ b
+a = a ^ b</code></pre>
+<p>最初一看很懵，写的这啥玩意，不由自主地想转化成二进制去看对不对，在想这里面有什么玄学，结果是忘了异或满足交换律和结合律，我们先来看如下几个异或的性质</p>
+<ol>
+<li>a ^ a = 0  a ^ 0 = a</li>
+<li>a ^ b = b ^ a 交换律</li>
+<li>(a ^ b) ^ c = a ^ (b ^ c) 结合律</li>
+</ol>
+<p>为了表示方便，我们设a = 甲，b = 乙，则推到一下上面的代码<br>a = a ^ b,此时a = 甲 ^ 乙，b = 乙，下一步<br>b = a ^ b,此时a = 甲 ^ 乙,b = 甲 ^ 乙 ^ 乙 = 甲 ^ (乙 ^ 乙) = 甲 ^ 0 =甲，下一步<br>a = a ^ b,此时，b = 甲，a = 甲 ^ 乙 ^ 甲 = （甲 ^ 甲）^ 乙 = 0 ^ 乙 = 乙<br>从而实现了不借助第三个变量对两个变量进行交换，非常妙，我愿称为妙手。</p>
+
             </div>
 
         </div>
