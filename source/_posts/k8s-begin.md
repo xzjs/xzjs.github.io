@@ -25,27 +25,36 @@ exclude=kubelet kubeadm kubectl
 # 创建集群
 使用了阿里云的镜像
 ```
-sudo kubeadm init --pod-network-cidr 172.16.0.0/16 \
-    --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers
+sudo kubeadm init --pod-network-cidr 172.16.0.0/16 --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers
 ```
 
 ## 坑
-```
-[WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
-```
-编辑`/etc/docker/daemon.json`,添加`"exec-opts": ["native.cgroupdriver=systemd"],`,然后重启docker
+1. systemd
+  ```
+  [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+  ```
+  编辑`/etc/docker/daemon.json`,添加`"exec-opts": ["native.cgroupdriver=systemd"],`,然后重启docker
 
-```
-[ERROR Swap]: running with swap on is not supported. Please disable swap
-```
-k8s需要关闭swap，永久关闭swap，编辑`/etc/fstab`,注释掉swap的一句即可
+  ```
+  [ERROR Swap]: running with swap on is not supported. Please disable swap
+  ```
+  k8s需要关闭swap，永久关闭swap，编辑`/etc/fstab`,注释掉swap的一句即可
 
-上面的命令执行成功后，会输出一条和kubeadm join相关的命令，后面加入worker node的时候要使用。另外，给自己的非sudo的常规身份拷贝一个token，这样就可以执行kubectl命令了
-```
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-```
+  上面的命令执行成功后，会输出一条和kubeadm join相关的命令，后面加入worker node的时候要使用。另外，给自己的非sudo的常规身份拷贝一个token，这样就可以执行kubectl命令了
+  ```
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+  ```
+
+2. 镜像拉取不下来
+`kubeadm config images pull --image-repository registry.aliyuncs.com/google_containers`
+使用指定仓库去拉取
+3. 需要的沙盒容器是3.6
+[重载沙盒镜像](https://kubernetes.io/zh-cn/docs/setup/production-environment/container-runtimes/#override-pause-image-containerd)
+在里面替换成现有的3.9
+4. failed to ensure lease exists
+
 # 安装calico插件
 [yaml文件](https://docs.projectcalico.org/v3.11/manifests/calico.yaml)
 修改里面的CALICO_IPV4POOL_CIDR的值来避免和宿主机所在的局域网段冲突（把原始的192.168.0.0/16 修改成了172.16.0.0/16)
