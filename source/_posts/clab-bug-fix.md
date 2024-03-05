@@ -84,31 +84,31 @@ mv /usr/sbin/sshd /usr/sbin/sshd.bak
 `./config --prefix=/usr/local/openssl `,报错Can't locate IPC/Cmd.pm in @INC
 `yum install perl-IPC-Cmd`安装依赖进行修复
 `make && make install`开始安装
-```
+
+```bash
 mv /usr/bin/openssl /usr/bin/openssl.bak
-
 ln -sf /usr/local/openssl/bin/openssl /usr/bin/openssl
-
 echo "/usr/local/openssl/lib64" >> /etc/ld.so.conf
-
 ldconfig -v
 ```
 检查版本`openssl version`
 
 6. 安装新的openssh服务
-解压`tar -zxvf openssh-9.6p1.tar.gz`
-`cd openssh-9.6p1`
-`./configure --prefix=/usr/local/openssh --with-zlib=/usr/local/zlib --sysconfdir=/etc/ssh  --with-openssl-includes=/usr/local/openssl/include --with-ssl-dir=/usr/local/openssl --with-md5-passwords   --with-pam`
-`make && make install`
+```bash
+tar -zxvf openssh-9.6p1.tar.gz
+cd openssh-9.6p1
+./configure --prefix=/usr/local/openssh --with-zlib=/usr/local/zlib --sysconfdir=/etc/ssh  --with-openssl-includes=/usr/local/openssl/include --with-ssl-dir=/usr/local/openssl --with-md5-passwords   --with-pam
+make && make install
+```
 
 7. 复制源码解压路径的开机启动脚本
-```
+```bash
 cp openssh-9.6p1/contrib/redhat/sshd.init /etc/init.d/sshd
 chmod u+x /etc/init.d/sshd
 ```
 
 8. 修改开机启动文件
-```
+```bash
 sed -i '25cSSHD=/usr/local/sbin/sshd' /etc/init.d/sshd
 sed -i '41c/usr/local/bin/ssh-keygen -A' /etc/init.d/sshd
 ```
@@ -117,7 +117,7 @@ sed -i '41c/usr/local/bin/ssh-keygen -A' /etc/init.d/sshd
 `sed -i "/#PermitRootLogin prohibit-password/c\PermitRootLogin yes" /etc/ssh/sshd_config`
 
 10. 启动ssh
-```
+```bash
 chkconfig --add sshd
 cp /usr/local/sbin/sshd /usr/sbin/sshd
 systemctl start sshd
@@ -133,7 +133,7 @@ systemctl start sshd
 ### 解决办法
 在防火墙上过滤外来的ICMP timestamp（类型 13）报文以及外出的ICMP timestamp回复报文
 ### 修复步骤
-```
+```bash
 iptables -A INPUT -p ICMP --icmp-type timestamp-request -j DROP
 iptables -A INPUT -p ICMP --icmp-type timestamp-reply -j DROP
 ```
@@ -146,7 +146,7 @@ iptables -A INPUT -p ICMP --icmp-type timestamp-reply -j DROP
 在防火墙出入站规则中禁用echo-reply（type 0）、time-exceeded（type 11）、destination-unreachable（type 3）类型的ICMP包。
 
 ### 修复步骤
-```
+```bash
 iptables -A INPUT -p ICMP --icmp-type echo-reply -j DROP
 iptables -A OUTPUT -p ICMP --icmp-type echo-reply -j DROP
 iptables -A INPUT -p ICMP --icmp-type time-exceeded -j DROP
