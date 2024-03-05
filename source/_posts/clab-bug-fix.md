@@ -1,5 +1,5 @@
 ---
-title: 记一次漏洞修复经理
+title: 记一次漏洞修复经历
 date: 2024-02-22 21:39:03
 tags: nginx mysql php bug
 categories: 运维
