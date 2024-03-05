@@ -155,6 +155,7 @@ iptables -A INPUT -p ICMP --icmp-type destination-unreachable -j DROP
 iptables -A OUTPUT -p ICMP --icmp-type destination-unreachable -j DROP
 ```
 
+
 ## 8. 可通过HTTP获取远端WWW服务信息
 ### 详细描述
 ![nginx信息](https://p.ipic.vip/hhii9z.png)
