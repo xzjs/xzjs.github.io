@@ -132,4 +132,60 @@ systemctl start sshd
 远程主机会回复ICMP_TIMESTAMP查询并返回它们系统的当前时间，这可能允许攻击者攻击一些基于时间认证的协议
 ### 解决办法
 在防火墙上过滤外来的ICMP timestamp（类型 13）报文以及外出的ICMP timestamp回复报文
+### 修复步骤
+```
+iptables -A INPUT -p ICMP --icmp-type timestamp-request -j DROP
+iptables -A INPUT -p ICMP --icmp-type timestamp-reply -j DROP
+```
+
+## 7. 允许Traceroute探测
+### 详细描述
+本插件使用Traceroute探测来获取扫描器与远程主机之间的路由信息。攻击者也可以利用这些信息来了解目标网络的网络拓扑。
+
+### 解决办法
+在防火墙出入站规则中禁用echo-reply（type 0）、time-exceeded（type 11）、destination-unreachable（type 3）类型的ICMP包。
+
+### 修复步骤
+```
+iptables -A INPUT -p ICMP --icmp-type echo-reply -j DROP
+iptables -A OUTPUT -p ICMP --icmp-type echo-reply -j DROP
+iptables -A INPUT -p ICMP --icmp-type time-exceeded -j DROP
+iptables -A OUTPUT -p ICMP --icmp-type time-exceeded -j DROP
+iptables -A INPUT -p ICMP --icmp-type destination-unreachable -j DROP
+iptables -A OUTPUT -p ICMP --icmp-type destination-unreachable -j DROP
+```
+
+## 8. 可通过HTTP获取远端WWW服务信息
+### 详细描述
+![nginx信息](https://p.ipic.vip/hhii9z.png)
+### 解决办法
+1. 去 https://github.com/openresty/headers-more-nginx-module/tags 下载合适的组件,解压
+2. 执行 nginx -V 查看安装参数，拷贝 configure arguments 后的安装参数,增加--add-module=headers-more-nginx-module,执行./configure
+3. 执行 make && make install 安装
+4. 修改nginx.conf文件,增加more_clear_headers 'Server';
+5. 重启nginx服务
+
+## 9. 可以获取到MySQL/MariaDB/Percona/TiDB Server版本信息
+### 详细描述
+telnet 192.168.64.147 3306
+![](https://p.ipic.vip/eeogiv.png)
+### 解决办法
+找了一圈，不会隐藏，真操蛋
+
+## 10. SSH版本信息可被获取
+### 详细描述
+通过telnet连接ssh端口时会显示ssh的版本信息
+![](https://p.ipic.vip/knaivu.png)
+### 解决办法
+`sed -i 's/OpenSSH_9.6/hello world/g' /usr/sbin/sshd`
+将版本号隐藏起来
+
+## 11. 探测到SSH服务器支持的算法
+描述：本插件用来获取SSH服务器支持的算法列表
+处理：无法处理。ssh协议协商过程就是服务端要返回其支持的算法列表。搞个锤子啊
+
+
+
+
+
 
