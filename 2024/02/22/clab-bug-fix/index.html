@@ -209,6 +209,7 @@ mv /usr/sbin/sshd /usr/sbin/sshd.bak</code></pre>
 ### 修复步骤</code></pre>
 <p>iptables -A INPUT -p ICMP –icmp-type echo-reply -j DROP<br>iptables -A OUTPUT -p ICMP –icmp-type echo-reply -j DROP<br>iptables -A INPUT -p ICMP –icmp-type time-exceeded -j DROP<br>iptables -A OUTPUT -p ICMP –icmp-type time-exceeded -j DROP<br>iptables -A INPUT -p ICMP –icmp-type destination-unreachable -j DROP<br>iptables -A OUTPUT -p ICMP –icmp-type destination-unreachable -j DROP</p>
 <pre><code>
+
 ## 8. 可通过HTTP获取远端WWW服务信息
 ### 详细描述
 ![nginx信息](https://p.ipic.vip/hhii9z.png)
