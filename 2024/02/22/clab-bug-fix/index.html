@@ -160,90 +160,62 @@ mv /usr/sbin/sshd /usr/sbin/sshd.bak</code></pre>
 </li>
 <li>下载安装新的openssh服务<br>去 <a href="http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/" target="_blank" rel="noopener">http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/</a> 下载最新版软件</li>
 <li>删除现有的安装SSH的相关软件包<br><code>rpm -e `rpm -qa | grep openssh` --nodeps</code><br>我这儿提示啥都没删除，什么鬼</li>
-<li>安装新的openssl<br>因为新的openssh依赖于openssl，所以需要安装新的openssl<br>去 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener">https://www.openssl.org/source/</a> 下载最新版软件<br>解压 <code>tar -zxvf openssl-3.2.1.tar.gz</code><br><code>./config --prefix=/usr/local/openssl </code>,报错Can’t locate IPC/Cmd.pm in @INC<br><code>yum install perl-IPC-Cmd</code>安装依赖进行修复<br><code>make &amp;&amp; make install</code>开始安装<pre><code>mv /usr/bin/openssl /usr/bin/openssl.bak
-</code></pre>
+<li>安装新的openssl<br>因为新的openssh依赖于openssl，所以需要安装新的openssl<br>去 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener">https://www.openssl.org/source/</a> 下载最新版软件<br>解压 <code>tar -zxvf openssl-3.2.1.tar.gz</code><br><code>./config --prefix=/usr/local/openssl </code>,报错Can’t locate IPC/Cmd.pm in @INC<br><code>yum install perl-IPC-Cmd</code>安装依赖进行修复<br><code>make &amp;&amp; make install</code>开始安装</li>
+</ol>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">mv</span> /usr/bin/openssl /usr/bin/openssl.bak
+<span class="token function">ln</span> -sf /usr/local/openssl/bin/openssl /usr/bin/openssl
+<span class="token keyword">echo</span> <span class="token string">"/usr/local/openssl/lib64"</span> <span class="token operator">>></span> /etc/ld.so.conf
+ldconfig -v</code></pre>
+<p>检查版本<code>openssl version</code></p>
+<ol start="6">
+<li><p>安装新的openssh服务</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">tar</span> -zxvf openssh-9.6p1.tar.gz
+<span class="token function">cd</span> openssh-9.6p1
+./configure --prefix<span class="token operator">=</span>/usr/local/openssh --with-zlib<span class="token operator">=</span>/usr/local/zlib --sysconfdir<span class="token operator">=</span>/etc/ssh  --with-openssl-includes<span class="token operator">=</span>/usr/local/openssl/include --with-ssl-dir<span class="token operator">=</span>/usr/local/openssl --with-md5-passwords   --with-pam
+<span class="token function">make</span> <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token function">install</span></code></pre>
+</li>
+<li><p>复制源码解压路径的开机启动脚本</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cp</span> openssh-9.6p1/contrib/redhat/sshd.init /etc/init.d/sshd
+<span class="token function">chmod</span> u+x /etc/init.d/sshd</code></pre>
+</li>
+<li><p>修改开机启动文件</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sed</span> -i <span class="token string">'25cSSHD=/usr/local/sbin/sshd'</span> /etc/init.d/sshd
+<span class="token function">sed</span> -i <span class="token string">'41c/usr/local/bin/ssh-keygen -A'</span> /etc/init.d/sshd</code></pre>
+</li>
+<li><p>修改配置文件，允许root用户通过ssh远程登录<br><code>sed -i &quot;/#PermitRootLogin prohibit-password/c\PermitRootLogin yes&quot; /etc/ssh/sshd_config</code></p>
+</li>
+<li><p>启动ssh</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">chkconfig</span> --add sshd
+<span class="token function">cp</span> /usr/local/sbin/sshd /usr/sbin/sshd
+systemctl start sshd</code></pre>
 </li>
 </ol>
-<p>ln -sf /usr/local/openssl/bin/openssl /usr/bin/openssl</p>
-<p>echo “/usr/local/openssl/lib64” &gt;&gt; /etc/ld.so.conf</p>
-<p>ldconfig -v</p>
-<pre><code>检查版本`openssl version`
-
-6. 安装新的openssh服务
-解压`tar -zxvf openssh-9.6p1.tar.gz`
-`cd openssh-9.6p1`
-`./configure --prefix=/usr/local/openssh --with-zlib=/usr/local/zlib --sysconfdir=/etc/ssh  --with-openssl-includes=/usr/local/openssl/include --with-ssl-dir=/usr/local/openssl --with-md5-passwords   --with-pam`
-`make &amp;&amp; make install`
-
-7. 复制源码解压路径的开机启动脚本</code></pre>
-<p>cp openssh-9.6p1/contrib/redhat/sshd.init /etc/init.d/sshd<br>chmod u+x /etc/init.d/sshd</p>
-<pre><code>
-8. 修改开机启动文件</code></pre>
-<p>sed -i ‘25cSSHD=/usr/local/sbin/sshd’ /etc/init.d/sshd<br>sed -i ‘41c/usr/local/bin/ssh-keygen -A’ /etc/init.d/sshd</p>
-<pre><code>
-9. 修改配置文件，允许root用户通过ssh远程登录
-`sed -i &quot;/#PermitRootLogin prohibit-password/c\PermitRootLogin yes&quot; /etc/ssh/sshd_config`
-
-10. 启动ssh</code></pre>
-<p>chkconfig –add sshd<br>cp /usr/local/sbin/sshd /usr/sbin/sshd<br>systemctl start sshd</p>
-<pre><code>
-### 卸载telnet
-为了安全，还得把telnet卸载掉
-`yum remove telnet*`
-
-## 6. ICMP timestamp请求响应漏洞
-### 详细描述
-远程主机会回复ICMP_TIMESTAMP查询并返回它们系统的当前时间，这可能允许攻击者攻击一些基于时间认证的协议
-### 解决办法
-在防火墙上过滤外来的ICMP timestamp（类型 13）报文以及外出的ICMP timestamp回复报文
-### 修复步骤</code></pre>
-<p>iptables -A INPUT -p ICMP –icmp-type timestamp-request -j DROP<br>iptables -A INPUT -p ICMP –icmp-type timestamp-reply -j DROP</p>
-<pre><code>
-## 7. 允许Traceroute探测
-### 详细描述
-本插件使用Traceroute探测来获取扫描器与远程主机之间的路由信息。攻击者也可以利用这些信息来了解目标网络的网络拓扑。
-
-### 解决办法
-在防火墙出入站规则中禁用echo-reply（type 0）、time-exceeded（type 11）、destination-unreachable（type 3）类型的ICMP包。
-
-### 修复步骤</code></pre>
-<p>iptables -A INPUT -p ICMP –icmp-type echo-reply -j DROP<br>iptables -A OUTPUT -p ICMP –icmp-type echo-reply -j DROP<br>iptables -A INPUT -p ICMP –icmp-type time-exceeded -j DROP<br>iptables -A OUTPUT -p ICMP –icmp-type time-exceeded -j DROP<br>iptables -A INPUT -p ICMP –icmp-type destination-unreachable -j DROP<br>iptables -A OUTPUT -p ICMP –icmp-type destination-unreachable -j DROP</p>
-<pre><code>
-
-## 8. 可通过HTTP获取远端WWW服务信息
-### 详细描述
-![nginx信息](https://p.ipic.vip/hhii9z.png)
-### 解决办法
-1. 去 https://github.com/openresty/headers-more-nginx-module/tags 下载合适的组件,解压
-2. 执行 nginx -V 查看安装参数，拷贝 configure arguments 后的安装参数,增加--add-module=headers-more-nginx-module,执行./configure
-3. 执行 make &amp;&amp; make install 安装
-4. 修改nginx.conf文件,增加more_clear_headers &#39;Server&#39;;
-5. 重启nginx服务
-
-## 9. 可以获取到MySQL/MariaDB/Percona/TiDB Server版本信息
-### 详细描述
-telnet 192.168.64.147 3306
-![](https://p.ipic.vip/eeogiv.png)
-### 解决办法
-找了一圈，不会隐藏，真操蛋
-
-## 10. SSH版本信息可被获取
-### 详细描述
-通过telnet连接ssh端口时会显示ssh的版本信息
-![](https://p.ipic.vip/knaivu.png)
-### 解决办法
-`sed -i &#39;s/OpenSSH_9.6/hello world/g&#39; /usr/sbin/sshd`
-将版本号隐藏起来
-
-## 11. 探测到SSH服务器支持的算法
-描述：本插件用来获取SSH服务器支持的算法列表
-处理：无法处理。ssh协议协商过程就是服务端要返回其支持的算法列表。搞个锤子啊
-
-
-
-
-
-</code></pre>
+<h3 id="卸载telnet"><a href="#卸载telnet" class="headerlink" title="卸载telnet"></a>卸载telnet</h3><p>为了安全，还得把telnet卸载掉<br><code>yum remove telnet*</code></p>
+<h2 id="6-ICMP-timestamp请求响应漏洞"><a href="#6-ICMP-timestamp请求响应漏洞" class="headerlink" title="6. ICMP timestamp请求响应漏洞"></a>6. ICMP timestamp请求响应漏洞</h2><h3 id="详细描述"><a href="#详细描述" class="headerlink" title="详细描述"></a>详细描述</h3><p>远程主机会回复ICMP_TIMESTAMP查询并返回它们系统的当前时间，这可能允许攻击者攻击一些基于时间认证的协议</p>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>在防火墙上过滤外来的ICMP timestamp（类型 13）报文以及外出的ICMP timestamp回复报文</p>
+<h3 id="修复步骤"><a href="#修复步骤" class="headerlink" title="修复步骤"></a>修复步骤</h3><pre class=" language-bash"><code class="language-bash">iptables -A INPUT -p ICMP --icmp-type timestamp-request -j DROP
+iptables -A INPUT -p ICMP --icmp-type timestamp-reply -j DROP</code></pre>
+<h2 id="7-允许Traceroute探测"><a href="#7-允许Traceroute探测" class="headerlink" title="7. 允许Traceroute探测"></a>7. 允许Traceroute探测</h2><h3 id="详细描述-1"><a href="#详细描述-1" class="headerlink" title="详细描述"></a>详细描述</h3><p>本插件使用Traceroute探测来获取扫描器与远程主机之间的路由信息。攻击者也可以利用这些信息来了解目标网络的网络拓扑。</p>
+<h3 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h3><p>在防火墙出入站规则中禁用echo-reply（type 0）、time-exceeded（type 11）、destination-unreachable（type 3）类型的ICMP包。</p>
+<h3 id="修复步骤-1"><a href="#修复步骤-1" class="headerlink" title="修复步骤"></a>修复步骤</h3><pre class=" language-bash"><code class="language-bash">iptables -A INPUT -p ICMP --icmp-type echo-reply -j DROP
+iptables -A OUTPUT -p ICMP --icmp-type echo-reply -j DROP
+iptables -A INPUT -p ICMP --icmp-type time-exceeded -j DROP
+iptables -A OUTPUT -p ICMP --icmp-type time-exceeded -j DROP
+iptables -A INPUT -p ICMP --icmp-type destination-unreachable -j DROP
+iptables -A OUTPUT -p ICMP --icmp-type destination-unreachable -j DROP</code></pre>
+<h2 id="8-可通过HTTP获取远端WWW服务信息"><a href="#8-可通过HTTP获取远端WWW服务信息" class="headerlink" title="8. 可通过HTTP获取远端WWW服务信息"></a>8. 可通过HTTP获取远端WWW服务信息</h2><h3 id="详细描述-2"><a href="#详细描述-2" class="headerlink" title="详细描述"></a>详细描述</h3><p><img src="https://p.ipic.vip/hhii9z.png" alt="nginx信息"></p>
+<h3 id="解决办法-2"><a href="#解决办法-2" class="headerlink" title="解决办法"></a>解决办法</h3><ol>
+<li>去 <a href="https://github.com/openresty/headers-more-nginx-module/tags" target="_blank" rel="noopener">https://github.com/openresty/headers-more-nginx-module/tags</a> 下载合适的组件,解压</li>
+<li>执行 nginx -V 查看安装参数，拷贝 configure arguments 后的安装参数,增加–add-module=headers-more-nginx-module,执行./configure</li>
+<li>执行 make &amp;&amp; make install 安装</li>
+<li>修改nginx.conf文件,增加more_clear_headers ‘Server’;</li>
+<li>重启nginx服务</li>
+</ol>
+<h2 id="9-可以获取到MySQL-MariaDB-Percona-TiDB-Server版本信息"><a href="#9-可以获取到MySQL-MariaDB-Percona-TiDB-Server版本信息" class="headerlink" title="9. 可以获取到MySQL/MariaDB/Percona/TiDB Server版本信息"></a>9. 可以获取到MySQL/MariaDB/Percona/TiDB Server版本信息</h2><h3 id="详细描述-3"><a href="#详细描述-3" class="headerlink" title="详细描述"></a>详细描述</h3><p>telnet 192.168.64.147 3306<br><img src="https://p.ipic.vip/eeogiv.png"></p>
+<h3 id="解决办法-3"><a href="#解决办法-3" class="headerlink" title="解决办法"></a>解决办法</h3><p>找了一圈，不会隐藏，真操蛋</p>
+<h2 id="10-SSH版本信息可被获取"><a href="#10-SSH版本信息可被获取" class="headerlink" title="10. SSH版本信息可被获取"></a>10. SSH版本信息可被获取</h2><h3 id="详细描述-4"><a href="#详细描述-4" class="headerlink" title="详细描述"></a>详细描述</h3><p>通过telnet连接ssh端口时会显示ssh的版本信息<br><img src="https://p.ipic.vip/knaivu.png"></p>
+<h3 id="解决办法-4"><a href="#解决办法-4" class="headerlink" title="解决办法"></a>解决办法</h3><p><code>sed -i &#39;s/OpenSSH_9.6/hello world/g&#39; /usr/sbin/sshd</code><br>将版本号隐藏起来</p>
+<h2 id="11-探测到SSH服务器支持的算法"><a href="#11-探测到SSH服务器支持的算法" class="headerlink" title="11. 探测到SSH服务器支持的算法"></a>11. 探测到SSH服务器支持的算法</h2><p>描述：本插件用来获取SSH服务器支持的算法列表<br>处理：无法处理。ssh协议协商过程就是服务端要返回其支持的算法列表。搞个锤子啊</p>
 
             </div>
 
