@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/me.png"/>
+	<link rel="shortcut icon" href="/img/me.png">
+	
+			    <title>
+    君应有语
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.png') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_default.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">血之君殇</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/xzjs" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <p>最近整了个团队的网站，要上线的时候所里扫描了一下，结果发现一堆高危漏洞，真是不看不知道，一看吓一跳。</p>
+<h2 id="1-nginx-缓冲区错误漏洞-CVE-2022-41741"><a href="#1-nginx-缓冲区错误漏洞-CVE-2022-41741" class="headerlink" title="1. nginx 缓冲区错误漏洞(CVE-2022-41741)"></a>1. nginx 缓冲区错误漏洞(CVE-2022-41741)</h2><p>nginx 1.19.1版本之前，存在缓冲区溢出漏洞。远程攻击者可通过向nginx发送特定HTTP请求，导致内存损坏。<br>修复方式：升级到最新版本<br><code>vim /etc/yum.repos.d/nginx.repo</code></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token punctuation">[</span>nginx-stable<span class="token punctuation">]</span>
+name<span class="token operator">=</span>nginx stable repo
+baseurl<span class="token operator">=</span>http://nginx.org/packages/centos/<span class="token variable">$releasever</span>/<span class="token variable">$basearch</span>/
+gpgcheck<span class="token operator">=</span>1
+enabled<span class="token operator">=</span>1
+gpgkey<span class="token operator">=</span>https://nginx.org/keys/nginx_signing.key
+module_hotfixes<span class="token operator">=</span>true
+
+<span class="token punctuation">[</span>nginx-mainline<span class="token punctuation">]</span>
+name<span class="token operator">=</span>nginx mainline repo
+baseurl<span class="token operator">=</span>http://nginx.org/packages/mainline/centos/<span class="token variable">$releasever</span>/<span class="token variable">$basearch</span>/
+gpgcheck<span class="token operator">=</span>1
+enabled<span class="token operator">=</span>0
+gpgkey<span class="token operator">=</span>https://nginx.org/keys/nginx_signing.key
+module_hotfixes<span class="token operator">=</span>true</code></pre>
+<p><code>yum install nginx</code><br>然后启动nginx服务即可</p>
+<h2 id="2-Nginx-信任管理问题漏洞-CVE-2021-3618"><a href="#2-Nginx-信任管理问题漏洞-CVE-2021-3618" class="headerlink" title="2. Nginx 信任管理问题漏洞(CVE-2021-3618)"></a>2. Nginx 信任管理问题漏洞(CVE-2021-3618)</h2><p>ALACA是一种应用层协议内容混淆攻击，利用实现不同协议但使用兼容证书（如多域或通配符证书）的TLS服务器。在TCP/IP层访问受害者流量的MiTM攻击者可以将流量从一个子域重定向到另一个子域，从而产生有效的TLS会话。这破坏了TLS的身份验证，并且可能会发生跨协议攻击，其中一个协议服务的行为可能会在应用层危害另一个协议。<br>修复方式：升级到最新版本<br>上一个bug修复的同时会修复</p>
+<h2 id="3-nginx-越界写入漏洞（CVE-2022-41742）"><a href="#3-nginx-越界写入漏洞（CVE-2022-41742）" class="headerlink" title="3. nginx 越界写入漏洞（CVE-2022-41742）"></a>3. nginx 越界写入漏洞（CVE-2022-41742）</h2><p>NGINX开源1.23.2和1.22.1之前的版本、NGINX开放源代码订阅R2 P1和R1 P1之前的版本以及NGINX Plus R27 P1和R26 P1以前的版本在模块ngx_http_mp4_module中存在漏洞，该漏洞可能允许本地攻击者使用特制的音频或视频文件导致工作进程崩溃，或导致工作进程内存泄漏。当在配置文件中使用mp4指令时，此问题仅影响使用模块ngx_http_mp4_module构建的NGINX产品。此外，只有当攻击者能够使用模块ngx_http_mp4_module触发对特制音频或视频文件的处理时，才有可能进行攻击。<br>修复方式：升级到最新版本</p>
+<h2 id="4-PHP-安全漏洞-CVE-2022-31629"><a href="#4-PHP-安全漏洞-CVE-2022-31629" class="headerlink" title="4.PHP 安全漏洞(CVE-2022-31629)"></a>4.PHP 安全漏洞(CVE-2022-31629)</h2><p>PHP 7.4.31之前版本、8.0.24之前版本和8.1.11之前版本存在安全漏洞，攻击者利用该漏洞可以能够在受害者的浏览器中设置一个标准的不安全 cookie。<br>修复方式：升级到最新版本</p>
+<h2 id="5-OpenSSH-CBC模式信息泄露漏洞-CVE-2008-5161"><a href="#5-OpenSSH-CBC模式信息泄露漏洞-CVE-2008-5161" class="headerlink" title="5.OpenSSH CBC模式信息泄露漏洞(CVE-2008-5161)"></a>5.OpenSSH CBC模式信息泄露漏洞(CVE-2008-5161)</h2><p>在(1)SSH Tectia客户端和服务器以及Connector 4.0 through 4.4.11, 5.0 through 5.2.4, and 5.3 through 5.3.8;Client and Server and ConnectSecure 6.0 through 6.0.4; IBM System z 6.0.4上的Linux服务器;适用于IBM z / OS 5.5.1及更早版本，6.0.0和6.0.1的服务器;和Client 4.0-J through 4.3.3-J and 4.0-K through 4.3.10-K;</p>
+<p>以及(2)OpenSSH 4.7p1以及可能的其他版本中的SSH协议中的错误处理，当在Cipher Block Chaining(CBC)模式下使用block cipher algorithm时，远程攻击者可以更容易地从SSH会话中的任意密文块中恢复某些明文数据向量。</p>
+<p>修复方式：升级到最新版本<br>修复步骤：</p>
+<h3 id="为了防止安装失败，先安装telnet以防无法登录"><a href="#为了防止安装失败，先安装telnet以防无法登录" class="headerlink" title="为了防止安装失败，先安装telnet以防无法登录"></a>为了防止安装失败，先安装telnet以防无法登录</h3><ol>
+<li>检查是否安装了telnet<pre><code>rpm -q telnet-server 
+rpm -q telnet</code></pre>
+</li>
+<li>安装telnet服务<br><code>yum install telnet* -y</code></li>
+<li>启动telnet服务<pre><code>systemctl enable telnet.socket
+systemctl start telnet.socket</code></pre>
+<h3 id="安装新的openssh"><a href="#安装新的openssh" class="headerlink" title="安装新的openssh"></a>安装新的openssh</h3></li>
+<li>安装依赖包<br><code>yum -y install zlib* pam-* gcc openssl-devel</code></li>
+<li>备份原有ssh服务版本<pre><code>mv /etc/ssh /etc/ssh.bak
+mv /usr/bin/ssh /usr/bin/ssh.bak
+mv /usr/sbin/sshd /usr/sbin/sshd.bak</code></pre>
+</li>
+<li>下载安装新的openssh服务<br>去 <a href="http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/" target="_blank" rel="noopener">http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/</a> 下载最新版软件</li>
+<li>删除现有的安装SSH的相关软件包<br><code>rpm -e `rpm -qa | grep openssh` --nodeps</code><br>我这儿提示啥都没删除，什么鬼</li>
+<li>安装新的openssl<br>因为新的openssh依赖于openssl，所以需要安装新的openssl<br>去 <a href="https://www.openssl.org/source/" target="_blank" rel="noopener">https://www.openssl.org/source/</a> 下载最新版软件<br>解压 <code>tar -zxvf openssl-3.2.1.tar.gz</code><br><code>./config --prefix=/usr/local/openssl </code>,报错Can’t locate IPC/Cmd.pm in @INC<br><code>yum install perl-IPC-Cmd</code>安装依赖进行修复<br><code>make &amp;&amp; make install</code>开始安装<pre><code>mv /usr/bin/openssl /usr/bin/openssl.bak
+</code></pre>
+</li>
+</ol>
+<p>ln -sf /usr/local/openssl/bin/openssl /usr/bin/openssl</p>
+<p>echo “/usr/local/openssl/lib64” &gt;&gt; /etc/ld.so.conf</p>
+<p>ldconfig -v</p>
+<pre><code>检查版本`openssl version`
+
+6. 安装新的openssh服务
+解压`tar -zxvf openssh-9.6p1.tar.gz`
+`cd openssh-9.6p1`
+`./configure --prefix=/usr/local/openssh --with-zlib=/usr/local/zlib --sysconfdir=/etc/ssh  --with-openssl-includes=/usr/local/openssl/include --with-ssl-dir=/usr/local/openssl --with-md5-passwords   --with-pam`
+`make &amp;&amp; make install`
+
+7. 复制源码解压路径的开机启动脚本</code></pre>
+<p>cp openssh-9.6p1/contrib/redhat/sshd.init /etc/init.d/sshd<br>chmod u+x /etc/init.d/sshd</p>
+<pre><code>
+8. 修改开机启动文件</code></pre>
+<p>sed -i ‘25cSSHD=/usr/local/sbin/sshd’ /etc/init.d/sshd<br>sed -i ‘41c/usr/local/bin/ssh-keygen -A’ /etc/init.d/sshd</p>
+<pre><code>
+9. 修改配置文件，允许root用户通过ssh远程登录
+`sed -i &quot;/#PermitRootLogin prohibit-password/c\PermitRootLogin yes&quot; /etc/ssh/sshd_config`
+
+10. 启动ssh</code></pre>
+<p>chkconfig –add sshd<br>cp /usr/local/sbin/sshd /usr/sbin/sshd<br>systemctl start sshd</p>
+<pre><code>
+### 卸载telnet
+为了安全，还得把telnet卸载掉
+`yum remove telnet*`
+
+## 6. ICMP timestamp请求响应漏洞
+### 详细描述
+远程主机会回复ICMP_TIMESTAMP查询并返回它们系统的当前时间，这可能允许攻击者攻击一些基于时间认证的协议
+### 解决办法
+在防火墙上过滤外来的ICMP timestamp（类型 13）报文以及外出的ICMP timestamp回复报文
+</code></pre>
+
+            </div>
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
