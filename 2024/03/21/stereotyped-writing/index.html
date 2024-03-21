@@ -121,34 +121,19 @@
         <div id="main" >
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <ol>
-<li>布隆过滤器</li>
-<li>浏览器从输入到返回的全过程</li>
-<li>http协议</li>
-<li>https加密过程</li>
-<li>golang的底层</li>
-<li>链表入环节点</li>
+                <h1 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h1><h1 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h1><h2 id="事务的四个特性"><a href="#事务的四个特性" class="headerlink" title="事务的四个特性"></a>事务的四个特性</h2><p>原子性、一致性、隔离性、持久性</p>
+<h2 id="left-join和right-join的区别"><a href="#left-join和right-join的区别" class="headerlink" title="left join和right join的区别"></a>left join和right join的区别</h2><p>left会保存全部左边的，right会保存全部右边的</p>
+<h1 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h1><h2 id="redis的五个数据类型"><a href="#redis的五个数据类型" class="headerlink" title="redis的五个数据类型"></a>redis的五个数据类型</h2><p>string，list，hash，set，sort set</p>
+<h1 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h1><h2 id="linux-三剑客"><a href="#linux-三剑客" class="headerlink" title="linux 三剑客"></a>linux 三剑客</h2><p>grep，sed，awk</p>
+<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="tcp是如何保持可靠性的"><a href="#tcp是如何保持可靠性的" class="headerlink" title="tcp是如何保持可靠性的"></a>tcp是如何保持可靠性的</h2><ol>
+<li>校验和</li>
+<li>序列号和确认应答</li>
+<li>超时重传机制</li>
+<li>连接管理</li>
+<li>流量控制</li>
+<li>拥塞控制</li>
 </ol>
-<h2 id="百度面试"><a href="#百度面试" class="headerlink" title="百度面试"></a>百度面试</h2><ol>
-<li>TCP拥塞控制</li>
-<li>SQL语句非常薄弱</li>
-<li>事务的特性</li>
-<li>join</li>
-<li>桶排序</li>
-<li>linux操作，将a.txt 和 b.txt 的第一列交集写入c<br>在Linux中，可以使用命令行工具和脚本语言来取两个文件的交集。</li>
-</ol>
-<p>方法一：使用sort和comm命令</p>
-<pre><code>sort file1.txt &gt; file1_sorted.txt
-sort file2.txt &gt; file2_sorted.txt
-comm -12 file1_sorted.txt file2_sorted.txt</code></pre>
-<p>这种方法先使用sort命令对两个文件进行排序，然后使用comm命令检测两个排序后的文件的交集。选项”-12”表示只输出交集部分。</p>
-<p>方法二：使用grep命令</p>
-<p><code>grep -Fxf file1.txt file2.txt</code></p>
-<p>这种方法使用grep命令的选项来进行模式匹配。选项”-F”表示按照固定字符串而不是正则表达式进行匹配，”-x”表示完全匹配每一行，”-f”表示匹配来自文件的内容。</p>
-<p>方法三：使用awk命令</p>
-<p><code>awk &#39;NR==FNR {a[$0]; next} $0 in a&#39; file1.txt file2.txt</code></p>
-<p>这种方法使用awk命令来遍历两个文件。先将第一个文件的行存储在数组a中，然后逐行读取第二个文件并检查该行是否在数组a中，如果在则打印输出。</p>
-<p>以上是几种取交集的实现方法，它们都能在Linux系统中有效地找到两个文件的交集。</p>
+<h2 id="http协议常用状态码"><a href="#http协议常用状态码" class="headerlink" title="http协议常用状态码"></a>http协议常用状态码</h2><p>301 永久重定向<br>302 临时重定向<br>400 客户端请求中的语法错误<br>401 未登录<br>403 拒绝访问<br>404 未找到<br>500 服务端执行请求时发生错误<br>502 服务器网关错误<br>503 服务器处于负载或停机维护</p>
 
             </div>
 
